@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jmmmj.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="CoreAnimation是iOS和OS X平台上负责图像渲染与动画的基础框架，也是一组非常强大的动画处理API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中的图层与动画">
+<meta property="og:url" content="http://jmmmj.github.io/2021/02/04/IOS%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="jmmmj的博客">
+<meta property="og:description" content="CoreAnimation是iOS和OS X平台上负责图像渲染与动画的基础框架，也是一组非常强大的动画处理API">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-04T03:33:01.000Z">
+<meta property="article:modified_time" content="2021-02-04T13:47:14.658Z">
+<meta property="article:author" content="jmmmj">
+<meta property="article:tag" content="iOS开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://jmmmj.github.io/2021/02/04/IOS%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>iOS中的图层与动画 | jmmmj的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">jmmmj的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">好博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/jmmmj" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jmmmj.github.io/2021/02/04/IOS%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/dandan1.png">
+      <meta itemprop="name" content="jmmmj">
+      <meta itemprop="description" content="一个普通大三计算机学生的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jmmmj的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS中的图层与动画
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-04 11:33:01 / 修改时间：21:47:14" itemprop="dateCreated datePublished" datetime="2021-02-04T11:33:01+08:00">2021-02-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">CoreAnimation是iOS和OS X平台上负责图像渲染与动画的基础框架，也是一组非常强大的动画处理API</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="iOS中的图层与动画"><a href="#iOS中的图层与动画" class="headerlink" title="iOS中的图层与动画"></a>iOS中的图层与动画</h1><p>​        前段时间博主开发了一个旦旦翻牌game的小demo（寒假实验室的学习任务，可以在我的github上找到CardGame仓库），自己写了个翻牌动画。开发之路刚刚起步，需要开发知识和实战经验结合，来小总结一下iOS开发中关于图层和动画的一些基本知识~</p>
+<p>​        <strong>使用CoreAnimation开发动画的本质就是将CALayer中的内容转化为位图供硬件操作</strong></p>
+<h2 id="图层"><a href="#图层" class="headerlink" title="图层"></a>图层</h2><h3 id="UIView和CALayer"><a href="#UIView和CALayer" class="headerlink" title="UIView和CALayer"></a><strong>UIView和CALayer</strong></h3><p>​        UIView类是所有视图的基类，CALayer是图层类，他们处于同层的平行关系，<strong>每一个UIView都有一个CALayer实例的图层属性</strong>。CALayer是对底层图形API层层封装得到的类，用于展示一些可见的图形元素，保留了一些基本的图形化操作。CALayer用于管理图形元素、制作动画，它保留了一些如尺寸、位置的几何属性。UIView简单来说是可以在里面渲染可见内容的矩形框，里面的内容可以与用户交互，对交互事件进行处理。</p>
+<p>​        CALayer可以通过UIView很方便地展示操作UI元素，单独使用灵活度更高，自身具有可设置的属性如背景色、边框和阴影等。</p>
+<p>​        UIView继承自UIResponder，UIResponder继承自NSObject；而CALayer直接继承自NSObject。因此两者主要区别为：</p>
+<ul>
+<li>CALayer无法像UIView一样响应用户事件</li>
+<li>在分工上UIView类侧重于对现实内容的管理和整体布局，而CALayer侧重于显示内容的绘制、显示和动画</li>
+<li>UIView属于UIKit.framework框架，CALayer属于QuartzCore.framework框架</li>
+</ul>
+<p>​        iOS中提供UIView和CALayer这两个平行层级结构，实现视图的绘制、显示和布局解耦，避免了很多重复的代码。这样做的带来的好处就例如：UIKit框架不跨平台，在iOS和Mac OS上，两者事件和用户交互的实现有显著不同，但是视图绘制的QuartzCore和Core Graphics两个框架是跨平台的，两个平行层级结构方便两个平台的代码可以共享，使开发更便捷。</p>
+<p>​        Layer层对象是用来展示可见内容、渲染视图内容的对象，常用的有：CATextLayer（文字布局渲染）、CAShapeLayer（绘制矢量图形）、CAGradientLayer（主要用于平滑渐变）、CATransformLayer（展示3D图形变换）、CAScrollLayer（实现滚动视图）、AVPlayerLayer（播放视频）、CAEmitterLayer（粒子特效）。这些都是继承自CALayer。</p>
+<h3 id="UIView及其子类的圆角等效果渲染"><a href="#UIView及其子类的圆角等效果渲染" class="headerlink" title="UIView及其子类的圆角等效果渲染"></a><strong>UIView及其子类的圆角等效果渲染</strong></h3><p>1.离屏渲染（直接设置layer圆角属性）：提前另开缓冲区进行的渲染，比较耗费性能；</p>
+<p>2.当前屏幕渲染（自定义圆角绘制方法）：GPU直接在当前显示的屏幕缓冲区渲染，不用离开切换缓冲区，性能较高。</p>
+<p>tips：为了防止离屏渲染的损耗，可以将处理图片的权利交于CPU，虽然图形处理性能不如GPU，但是圆角处理难度不大，代价远小于上下文切换，常用方法有：使用CALayer的shouldRasterize设置光栅化、通过CoreGraphics绘制圆角图片（用UIBezierPath剪切图片）</p>
+<p>​        （小技巧：可以制作中间镂空的图片，颜色同背景的图片遮在图像上实现圆角效果，避免圆角渲染的性能问题）</p>
+<h3 id="点与像素"><a href="#点与像素" class="headerlink" title="点与像素"></a><strong>点与像素</strong></h3><p>​        点是iOS中标准的坐标体系与虚拟像素（逻辑像素），一个点对应一个像素，但在Retina屏幕上一个点对应2*2个像素，这个坐标测算体系使在Retina设备和普通设备上有一致的视觉效果。</p>
+<p>​        像素是图片分辨率的尺寸单位，即物理像素，和图片有相对关系。UIImage用点来度量大小，一些底层的CGImage类型的图片会使用像素。</p>
+<h3 id="drawRect方法"><a href="#drawRect方法" class="headerlink" title="drawRect方法"></a><strong>drawRect方法</strong></h3><p>​        drawRect:方法被定义在UIView的UIViewRendering类别中，其中的代码利用Core Graphics在指定的rect中绘制图形，然后缓存起来等待被更新。它会在视图出现时被自动调用，具体是loadView和viewDidLoad两个方法之后，因此没有自定义绘图任务时，不要在子类中写空的drawRect:以免造成资源浪费。可以调用setNeedsDisplay将绘制好的图形更新到视图上（更新的原理是在receiver上设置需要重绘标记，在下个绘制周期自动重绘，一般的刷新频率为60Hz）。</p>
+<h3 id="anchorPoint与position"><a href="#anchorPoint与position" class="headerlink" title="anchorPoint与position"></a><strong>anchorPoint与position</strong></h3><p>​    anchorPoint相对于当前图层。</p>
+<p>​    图层的position相当于视图中的center，是相对于父图层的位置。</p>
+<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><h3 id="隐式动画与显式动画"><a href="#隐式动画与显式动画" class="headerlink" title="隐式动画与显式动画"></a><strong>隐式动画与显式动画</strong></h3><p>​        隐式动画：UIKit动画的基础，是iOS中创建动态UI界面的最直接的一种方式，通过直接设定UI元素的一些可见属性的目标值（如frame、bounds、center、transform、alpha等），生成属性变化的过渡动画，默认从一个初始状态线性变化到目标状态，例如基于block块的UIView的+animateWithDuration:animations:方法。</p>
+<p>​        显示动画：需要显式地定义动画的完整流程，略微复杂的同时会更加灵活，可以实现更加复杂的动画效果。</p>
+<h3 id="隐式动画原理"><a href="#隐式动画原理" class="headerlink" title="隐式动画原理"></a><strong>隐式动画原理</strong></h3><p>​        更改视图的非根图层的可动画属性时，CoreAnimation自动决定如何并且如何去做动画。动画的执行时间取决于当前事务（CATransaction），而动画类型取决于图层行为。CATransaction类是用于包含一系列属性动画的机制，可以用+begin与+commit来入栈和出栈。</p>
+<p>​        CALayer的属性被修改时，会调用actionForKey:方法，原理为：</p>
+<ol>
+<li>图层检测是否有代理且代理是否实现了CALayerDelegate协议指定的-actionForKey:forKey方法，若有则直接调用并返回结果。</li>
+<li>如果无这样的代理，则图层会接着检查包含属性名称对应行为映射的action字典。</li>
+<li>如果action字典不包括对应的属性，则图层会在其style字典里搜索属性名。</li>
+<li>如果style中无对应的行为，则图层会调用定义每个属性标准行为的-defaultActionForKey:方法。</li>
+</ol>
+<p>​        每个UIView是其根图层的代理并且实现了-actionForKey:forKey方法，默认不执行任何动画即返回nil。还可以通过CATransaction的+setDisableActions来开关属性的隐式动画。</p>
+<h3 id="CGAffineTransform与CATransform3D"><a href="#CGAffineTransform与CATransform3D" class="headerlink" title="CGAffineTransform与CATransform3D"></a><strong>CGAffineTransform与CATransform3D</strong></h3><p>​        CGAffineTransform：定义在CoreGraphics框架中，主要用于在二维平面对视图进行旋转、缩放和平移，事实上是一个可以和空间向量（如CGPoint）做乘法的3 x 2的矩阵。它被称为“仿射变换”——不论使用什么值的变换矩阵，图层中平行的两条线变换后依然平行。UIView中的transform属性和CALayer中的affineTransform属性都是CGAffineTransform类型。</p>
+<p>​        CATransform3D是CoreAnimation结构体，也是一个矩阵，主要用来实现更复杂的关于CALayer的3D操作。其相关动画函数多了z轴参数，CATransform3D中的m34元素用来控制3D变换的透视效果。</p>
+<h3 id="CATransition"><a href="#CATransition" class="headerlink" title="CATransition"></a><strong>CATransition</strong></h3><p>​        CATransition是CoreAnimation框架提供的转场动画类。</p>
+<p>​        其type属性指定了转场动画的类型，主要有4个效果可选：fade、moveIn、push、reveal</p>
+<p>​        还有iOS的私有API，使用后在审核有被拒绝的风险：cube、oglFlip、suckEffect、rippleEffect、pageCurl、pageUnCurl、cameraIrisHollowOpen、cameraIrisHollowClose</p>
+<h3 id="UIVIew过渡动画"><a href="#UIVIew过渡动画" class="headerlink" title="UIVIew过渡动画"></a><strong>UIVIew过渡动画</strong></h3><ol>
+<li>使用CATransition</li>
+<li>使用UIView的过渡动画API，+transformWithView与+transformFromView:ToView</li>
+<li>自定义过渡动画，基础原则为对原始图层外观截图，添加一段动画平滑过渡到图层改变后截图的效果。调用CALayer中的renderInContext:方法可以将图层内容绘制成图片然后在视图在显示出来。</li>
+</ol>
+<h3 id="CAKeyframeAnimation"><a href="#CAKeyframeAnimation" class="headerlink" title="CAKeyframeAnimation"></a><strong>CAKeyframeAnimation</strong></h3><p>​        CAKeyframeAnimation，即关键帧动画，作用于单一的属性，是CAPropertyAnimation的一个子类，可以根据开发者提供的一连串随意的值来做动画，这些值即关键帧，每帧之间的绘制将由系统自动完成。</p>
+<p>​        使用时需要注意，关键帧动画不能将当前值作为第一帧，动画执行后会自动跳转到第一帧的值，动画结束后会突然恢复到最后一帧的值。还可以使用path属性来指定关键帧，且做动画的属性不一定是可动画属性，可以对子属性和虚拟属性做动画，例如指定keyPath为transform.rotation来做旋转动画。</p>
+<h3 id="UIViewController之间的转场动画"><a href="#UIViewController之间的转场动画" class="headerlink" title="UIViewController之间的转场动画"></a><strong>UIViewController之间的转场动画</strong></h3><p>​        使用常用的跳转方式：push、pop、present与dismiss等，系统会提供默认的动画效果。</p>
+<p>​        自定义转场动画时，需要注意的概念：</p>
+<ol>
+<li>presentingView指源视图控制器，presentedView指跳转目标控制器；</li>
+<li>UIViewControllerTransitionDelegate协议用于为跳转动画实现了UIViewControllerAnimatedTransitioning协议的对象，而UIViewControllerAnimatedTransitioning协议用于开展动画的展示时间和展示逻辑</li>
+<li>UIViewControllerInteractiveTransitioning协议即交互式转场动画代理，主要用于交互式动画</li>
+<li>UIViewControllerContextTransitioning协议即转场动画上下文协议，为动画提供必备的信息</li>
+</ol>
+<p>​        实现自定义动画需要代表页面跳转关系的两个控制器对象和动画执行逻辑，实现的步骤为：</p>
+<ol>
+<li>为源控制器和目标控制器分别设置一个遵守UIViewControllerAnimatedTransitioning协议的代理对象（可以设置为同一个对象）；</li>
+<li>调用对应的跳转方法，此时系统会自动请求动画代理提供动画逻辑对象。</li>
+</ol>
+<h3 id="保持视图界面为动画结束时的状态"><a href="#保持视图界面为动画结束时的状态" class="headerlink" title="保持视图界面为动画结束时的状态"></a><strong>保持视图界面为动画结束时的状态</strong></h3><p>​    实际开发中有时会发现动画结束时，视图状态会快速返回到初始状态，因为动画过程中所看到的是呈现图层的效果，而图层属性真正的值并非是呈现的效果值，解决方法为：</p>
+<ol>
+<li>设置动画对象的removeOnCompletion属性为NO。</li>
+<li>设置动画对象的fillMode为kCAFillModeForwards，即填充动画状态。</li>
+<li>为动画对象添加非空的键，以便不需要动画的时候将它从图层上移除。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS%E5%BC%80%E5%8F%91/" rel="tag"># iOS开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="计算机操作系统原理复习笔记">
+      <i class="fa fa-chevron-left"></i> 计算机操作系统原理复习笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB"><span class="nav-number">1.</span> <span class="nav-text">iOS中的图层与动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">图层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIView%E5%92%8CCALayer"><span class="nav-number">1.1.1.</span> <span class="nav-text">UIView和CALayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIView%E5%8F%8A%E5%85%B6%E5%AD%90%E7%B1%BB%E7%9A%84%E5%9C%86%E8%A7%92%E7%AD%89%E6%95%88%E6%9E%9C%E6%B8%B2%E6%9F%93"><span class="nav-number">1.1.2.</span> <span class="nav-text">UIView及其子类的圆角等效果渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%B8%8E%E5%83%8F%E7%B4%A0"><span class="nav-number">1.1.3.</span> <span class="nav-text">点与像素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#drawRect%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.4.</span> <span class="nav-text">drawRect方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#anchorPoint%E4%B8%8Eposition"><span class="nav-number">1.1.5.</span> <span class="nav-text">anchorPoint与position</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB"><span class="nav-number">1.2.</span> <span class="nav-text">动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E5%8A%A8%E7%94%BB%E4%B8%8E%E6%98%BE%E5%BC%8F%E5%8A%A8%E7%94%BB"><span class="nav-number">1.2.1.</span> <span class="nav-text">隐式动画与显式动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E5%8A%A8%E7%94%BB%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">隐式动画原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGAffineTransform%E4%B8%8ECATransform3D"><span class="nav-number">1.2.3.</span> <span class="nav-text">CGAffineTransform与CATransform3D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CATransition"><span class="nav-number">1.2.4.</span> <span class="nav-text">CATransition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIVIew%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB"><span class="nav-number">1.2.5.</span> <span class="nav-text">UIVIew过渡动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAKeyframeAnimation"><span class="nav-number">1.2.6.</span> <span class="nav-text">CAKeyframeAnimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIViewController%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB"><span class="nav-number">1.2.7.</span> <span class="nav-text">UIViewController之间的转场动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E6%8C%81%E8%A7%86%E5%9B%BE%E7%95%8C%E9%9D%A2%E4%B8%BA%E5%8A%A8%E7%94%BB%E7%BB%93%E6%9D%9F%E6%97%B6%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.8.</span> <span class="nav-text">保持视图界面为动画结束时的状态</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="jmmmj"
+      src="/images/dandan1.png">
+  <p class="site-author-name" itemprop="name">jmmmj</p>
+  <div class="site-description" itemprop="description">一个普通大三计算机学生的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jmmmj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jmmmj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jmj2001219@foxmail.com" title="邮箱 → mailto:jmj2001219@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>邮箱</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5640146183" title="个人微博 → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5640146183" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>个人微博</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://starman-swa.github.io/" title="https:&#x2F;&#x2F;starman-swa.github.io&#x2F;" rel="noopener" target="_blank">starman</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jmmmj</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
