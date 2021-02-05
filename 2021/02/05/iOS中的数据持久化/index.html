@@ -20,22 +20,20 @@
     var CONFIG = {"hostname":"jmmmj.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="Block是OC里和其他语言闭包&#x2F;匿名函数的特性，可以捕获变量，但是使用时需要注意内存管理。。">
+  <meta name="description" content="数据持久化是应用开发中的重要部分，iOS中的数据持久化的方案主要包括NSUserDefault简单数据快速读写、Property list属性列表文件存储、Archive归档、SQLite本地数据库和CoreData。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Objective-C学习笔记——块（block）">
-<meta property="og:url" content="http://jmmmj.github.io/2021/01/22/Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89/index.html">
+<meta property="og:title" content="iOS中的数据持久化">
+<meta property="og:url" content="http://jmmmj.github.io/2021/02/05/iOS%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
 <meta property="og:site_name" content="jmmmj的博客">
-<meta property="og:description" content="Block是OC里和其他语言闭包&#x2F;匿名函数的特性，可以捕获变量，但是使用时需要注意内存管理。。">
+<meta property="og:description" content="数据持久化是应用开发中的重要部分，iOS中的数据持久化的方案主要包括NSUserDefault简单数据快速读写、Property list属性列表文件存储、Archive归档、SQLite本地数据库和CoreData。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://jmmmj.github.io/2021/01/22/Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89/20201226120113498.png">
-<meta property="article:published_time" content="2021-01-22T08:06:03.000Z">
-<meta property="article:modified_time" content="2021-02-03T13:38:23.316Z">
+<meta property="article:published_time" content="2021-02-05T04:39:22.000Z">
+<meta property="article:modified_time" content="2021-02-05T15:51:09.824Z">
 <meta property="article:author" content="jmmmj">
-<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content="iOS开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://jmmmj.github.io/2021/01/22/Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89/20201226120113498.png">
 
-<link rel="canonical" href="http://jmmmj.github.io/2021/01/22/Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89/">
+<link rel="canonical" href="http://jmmmj.github.io/2021/02/05/iOS%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
 
 
 <script id="page-configurations">
@@ -48,7 +46,7 @@
   };
 </script>
 
-  <title>Objective-C学习笔记——块（block） | jmmmj的博客</title>
+  <title>iOS中的数据持久化 | jmmmj的博客</title>
   
 
 
@@ -200,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jmmmj.github.io/2021/01/22/Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://jmmmj.github.io/2021/02/05/iOS%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/dandan1.png">
@@ -213,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Objective-C学习笔记——块（block）
+          iOS中的数据持久化
         </h1>
 
         <div class="post-meta">
@@ -222,23 +220,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-01-22 16:06:03" itemprop="dateCreated datePublished" datetime="2021-01-22T16:06:03+08:00">2021-01-22</time>
+              <time title="创建时间：2021-02-05 12:39:22 / 修改时间：23:51:09" itemprop="dateCreated datePublished" datetime="2021-02-05T12:39:22+08:00">2021-02-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-03 21:38:23" itemprop="dateModified" datetime="2021-02-03T21:38:23+08:00">2021-02-03</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+                  <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
                 </span>
             </span>
 
@@ -250,7 +242,7 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
-            <div class="post-description">Block是OC里和其他语言闭包/匿名函数的特性，可以捕获变量，但是使用时需要注意内存管理。。</div>
+            <div class="post-description">数据持久化是应用开发中的重要部分，iOS中的数据持久化的方案主要包括NSUserDefault简单数据快速读写、Property list属性列表文件存储、Archive归档、SQLite本地数据库和CoreData。</div>
 
         </div>
       </header>
@@ -261,31 +253,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Objective-C学习笔记——块（block）"><a href="#Objective-C学习笔记——块（block）" class="headerlink" title="Objective-C学习笔记——块（block）"></a>Objective-C学习笔记——块（block）</h1><h3 id="1-理解块的概念"><a href="#1-理解块的概念" class="headerlink" title="1.理解块的概念"></a>1.理解块的概念</h3><p><strong>块的语法结构</strong>如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return_type (^block_name)(parameters)</span><br></pre></td></tr></table></figure>
-<p>块在声明它的范围里，任何变量都会被其捕获，即在这个范围里的全部变量都可以在块中使用。默认情况下，块所捕获的变量是不可以在块之中修改的，否则编译器会报错。若想修改则需要在该变量声明时在声明前加上__block修饰符。</p>
-<p>内联块(inline block)：作为方法调用的块不赋值给局部变量而是直接内联在方法调用之中。OC在引入块这一特性之前需要通过传入函数指针或选择子(selector)名称。</p>
-<p>如果块捕获的变量是对象类型，系统会自动保留它。系统在释放这个块时也会将其一并释放（减少引用计数）。块本身可视为对象，也有引用计数。</p>
-<p>块定义在OC类的实例方法中时，可以访问类的所有实例变量与self变量，且声明实例变量无需加__block。</p>
-<p>块通过写入/读取操作捕获实例变量时会将self一并捕获，这引发一个常见的问题：self也是一个对象，块捕获它时会将其retain，如果self指向的对象也同时retain了块，这种情况通常会导致”retain circle“（也称强引用循环）。</p>
-<p><strong>块的内部结构</strong>：</p>
-<img src="/2021/01/22/Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89/20201226120113498.png" class title="This is an test image">
-
-<p>invoke变量是一个函数指针，指向块的实现代码；</p>
-<p>descriptor变量是指向结构体的指针，这个结构体中声明了块对象的总体大小，还声明了copy和dispose两个辅助函数对应的函数指针，分别会在拷贝和丢失块对象时运行，其中执行了相关操作，前者要保留捕获的对象，后者会释放捕获的对象。</p>
-<p>块会拷贝捕获到的对象，将捕获到的变量放在descriptor后面的内存空间。拷贝的对象存储的是指向对象的指针而非对象（浅拷贝）。invoke函数需要把块对象作为参数传进来，是因为执行块需要从内存中读取这些捕获到的变量。</p>
-<p><strong>全局块、栈块与堆块</strong></p>
-<p>定义块的时候，其内存是分配在栈中的。</p>
-<p>因此块只在定义的有效域内有效，在if-else语句里定义的块只在if-else语句范围内有效，如果要使其在范围外有效，可以对块对象发送消息copy，将栈中的块复制到堆上，称为堆块。堆块会有自己的引用计数，复制堆块不会进行真的复制而是递增其引用计数。</p>
-<p>声明在全局内存里的全局块，不会捕捉任何状态，其拷贝操作是一个空操作。如果运行某一个块所需的全部信息在编译期确定，可以将其优化成全局块，因为全局块会摒弃复制丢弃中没有必要的操作。</p>
-<h3 id="2-为常用的块类型创建typedef"><a href="#2-为常用的块类型创建typedef" class="headerlink" title="2.为常用的块类型创建typedef"></a>2.为常用的块类型创建typedef</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef int(^someBlock) &#x3D; ^(BOOL flag,int value);&#x2F;&#x2F;定义块类型，名为someBlock</span><br><span class="line"></span><br><span class="line">someBlock block &#x3D; ^(BOOL flag,int value)&#123;</span><br><span class="line">    &#x2F;&#x2F;Implementation……</span><br><span class="line">    return anIntValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样做不仅使用方便，也便于检查修改（修改某一Handler后，编译器报错位置即所用块需要继续修改的位置），但需要注意遵从现有的命名习惯避免冲突。</p>
-<p>不妨为同一个块签名定义多个类型别名，这样在代码重构时只需要修改对应别名的块签名即可。</p>
-<h3 id="3-用handler降低代码分散程度"><a href="#3-用handler降低代码分散程度" class="headerlink" title="3.用handler降低代码分散程度"></a>3.用handler降低代码分散程度</h3><p>委托模式有一个缺点：类如果要使用多个获取器下载不同数据，需要在delegate回调方法里根据传入获取器参数来切换，这样不仅使delegate回调代码变长，而且要把获取器存储为实例变量，使类的代码量激增。</p>
-<p>改用handler避免了保存获取器与切换，因为和获取器对象一起定义，捕获变量。</p>
-<p>在基于块的API设计很多使用块来处理错误，可以把处理成功和失败的方式写在同一个块中，更为灵活（比如传数据时可以传入错误信息，处理成功响应中发现错误等），共享同一份错误处理代码，苹果公司也是这样设计其API的，如TWRequest和MKLocalSearch。</p>
-<p>设计基于块的API时可以增加一个参数，使调用者可以通过其决定块运行在哪个线程操作队列上。</p>
-<h3 id="4-注意用块引用其所属对象时不要出现retain-cycle"><a href="#4-注意用块引用其所属对象时不要出现retain-cycle" class="headerlink" title="4.注意用块引用其所属对象时不要出现retain cycle"></a>4.注意用块引用其所属对象时不要出现retain cycle</h3><p>如果块捕获的对象直接或间接保留了块本身，则会引起retain cycle问题，一定要找适当的时机解除掉cycle，而不能将责任推给API的调用者。</p>
+        <h1 id="iOS中的数据持久化"><a href="#iOS中的数据持久化" class="headerlink" title="iOS中的数据持久化"></a>iOS中的数据持久化</h1><p>​        数据持久化是应用开发中的重要部分，博主在编写一个网易彩票app的demo时(项目可以在我的github上找到，WYLottery)使用到了数据持久化来保存用户的设置，设置界面搭建也是借助plist文件来保存层次和属性，今天来整理一下iOS中数据持久化的方案与原理。iOS中的数据持久化的方案主要包括：<strong>NSUserDefault简单数据快速读写、Property list属性列表文件存储、Archive归档、SQLite本地数据库和CoreData。</strong></p>
+<h2 id="数据持久化方案"><a href="#数据持久化方案" class="headerlink" title="数据持久化方案"></a>数据持久化方案</h2><h4 id="NSUserDefault与Archive归档"><a href="#NSUserDefault与Archive归档" class="headerlink" title="NSUserDefault与Archive归档"></a><strong>NSUserDefault与Archive归档</strong></h4><p>​        NSUserDefault是iOS系统提供的一个单例类，采用简单的键值对存储方式，将用户的偏好设置保存到应用包的plist中，同时也能从中读取。添加新数据时需要自定义key和对应的基本类型的数据，获取时通过自定义key来获取，若不存在对应key则返回默认值（0或-1）。虽然存储的时基本类型数据，但我们也可以将集合数据转化成JSON字符串，以NSString的类型保存，通过这样来存储集合数据，便于加密解密。</p>
+<p>​        通过+standardUserDefaults来获取NSUserDefault单例。通过-setObject:ForKey:和-object:ForKey:来存取数据。</p>
+<p>​        序列化和归档（Archive），指的是将程序语言的对象转化成二进制流从而存储到文件中，因为对象不可以直接存储，反序列化和反归档（Unarchive）则反之。NSKeyedUnarchiver类继承自NSCoder，可以将满足NSCoding协议的对象进行归档，和NSData类型进行相互转换。若要实现多个对象同时归档和反归档，可以自定义并初始化一个NSKeyedArchiver对象，将数据封装在NSMutableData中进行统一的归档和反归档。</p>
+<p>​        如果要想通过NSUserDefault保存自定义对象，需要做以下额外操作：</p>
+<ol>
+<li>保证自定义类遵循NSCoding协议并实现协议进行编码/反编码；</li>
+<li>使用NSKeyedUnarchiver类将自定义对象转换成NSData对象。</li>
+</ol>
+<p>​        这样自定义对象转化成了NSData，就可以用NSUserDefault存储了，只不过取数据的时候需要NSKeyedUnarchiver来解档还原。归档成NSData对象的对应的归档解档方法（也可以调用别的方法归档成.achiver文件）分别为+archivedDataWithRootObject:与+unarchiveObjectWithData:。</p>
+<h4 id="Property-list文件存储"><a href="#Property-list文件存储" class="headerlink" title="Property list文件存储"></a>Property list文件存储</h4><p>​        Property List文件，扩展名为.plist，所以常被称为plist文件。主要用来存储序列化后的对象，文件是xml格式的，常用于存储用户的设置信息，也可以用于存储捆绑的信息等。</p>
+<p>​        在使用plist文件存储前先要明确数据的不同存储位置：</p>
+<ol>
+<li><p>存储到应用沙盒（可写可读，详见后文），沙盒是应用的隔离区域，plist存储在沙盒的Documents文件目录下，写入时要指明plist文件的文件名，如“/demo.plist”</p>
+</li>
+<li><p>存储到应用工程本身（只可读）。如果是将数据存在工程里，那么plist数据文件是手工创建的，而非代码添加，代码只对手工创建的plist文件进行读取且不可更新，更新只能通过手动修改plist文件更新数据。</p>
+<p>读取工程plist文件并写入沙盒以及读取沙盒plist文件</p>
+</li>
+</ol>
+<h4 id="SQLite本地数据库"><a href="#SQLite本地数据库" class="headerlink" title="SQLite本地数据库"></a>SQLite本地数据库</h4><p>​        iOS中的SQLite是一个使用ANSI-C开发的自包含的关系型数据库，它可以用于存储大规模的数据。SQLite的操作管理很简单，有小巧、快速、可靠的特点。另外SQLite使用互斥来保证多线程环境下数据操作的安全性。</p>
+<p>​        SQLite源代码是一个叫sqlite3.c的文件，在使用时只要加入这个库文件同时在代码中引入sqlite.h头文件即可</p>
+<h4 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h4><p>​        CoreData是苹果公司提供的一种应用数据管理框架，可以用图形界面的方式快速地定义App的数据类型，同时在代码中很容易获取这些数据类型。CoreData提供了基础结构用于处理常用的功能，如保护、恢复、撤销和重做，允许在App中继续创建新的任务。在使用CoreData的时候，不需要安装额外的数据库系统，因为CoreData使用内置的SQLite数据库。</p>
+<p>​        CoreData的最本质特点是提供了一种将对象模型和关系数据进行映射的功能，称为对象-关系映射（ORM），可以将模型对象和关系数据相互转换在SQLite数据库中存取。</p>
+<h2 id="沙盒机制"><a href="#沙盒机制" class="headerlink" title="沙盒机制"></a>沙盒机制</h2><p>​        沙盒是应用程序中一块相对封闭的独立空间，需要通过特殊限制通道才能访问沙盒外系统的资源。沙盒是为了系统安全而设置的访问屏障，限制应用程序访问系统文件、系统偏好、网络资源和硬件设备等，沙盒内的应用不会对系统安全有威胁。<strong>应用程序只能访问自己的沙盒，应用程序之间禁止数据的共享和访问。</strong></p>
+<h4 id="沙盒的子目录"><a href="#沙盒的子目录" class="headerlink" title="沙盒的子目录"></a>沙盒的子目录</h4><p>​        <strong>Documents目录</strong></p>
+<p>​        主要用于存储非常大的文件或需要非常频繁更新的数据，目录中的文件可以进行iTunes或iCloud的备份。</p>
+<p>​        <strong>Library目录</strong></p>
+<p>​        Library目录下后Preferences和Cache目录，如其名，Preferences目录主要用于存储应用程序的偏好设置数据，可以进行iTunes或iCloud的备份。而Caches目录不可以进行iTunes或iCloud的备份，主要用于存放存储体积大、不需要备份的数据缓存文件。</p>
+<p>​        <strong>tmp目录</strong></p>
+<p>​        tmp目录是应用程序的临时目录，里面的文件不可以进行iTunes或iCloud的备份，而且这里面的文件可能会随时被系统清除。</p>
+<p>​        虽然不能直接访问其他应用程序中的数据，但是可以借助iOS提供的特定的API访问一些特殊应用，如联系人应用等。</p>
+<p>​        </p>
 
     </div>
 
@@ -295,7 +294,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+              <a href="/tags/iOS%E5%BC%80%E5%8F%91/" rel="tag"># iOS开发</a>
           </div>
 
         
@@ -304,13 +303,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/21/%E5%A5%BD%E5%8D%9A%E5%AE%A2%E8%AF%9E%E7%94%9F%E4%BA%86/" rel="prev" title="好博客诞生了">
-      <i class="fa fa-chevron-left"></i> 好博客诞生了
+    <a href="/2021/02/04/IOS%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB/" rel="prev" title="iOS中的图层与动画">
+      <i class="fa fa-chevron-left"></i> iOS中的图层与动画
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="计算机网络复习笔记">
-      计算机网络复习笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -369,7 +365,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Objective-C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9D%97%EF%BC%88block%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">Objective-C学习笔记——块（block）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%90%86%E8%A7%A3%E5%9D%97%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.理解块的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BA%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9D%97%E7%B1%BB%E5%9E%8B%E5%88%9B%E5%BB%BAtypedef"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.为常用的块类型创建typedef</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%94%A8handler%E9%99%8D%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%88%86%E6%95%A3%E7%A8%8B%E5%BA%A6"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.用handler降低代码分散程度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%B3%A8%E6%84%8F%E7%94%A8%E5%9D%97%E5%BC%95%E7%94%A8%E5%85%B6%E6%89%80%E5%B1%9E%E5%AF%B9%E8%B1%A1%E6%97%B6%E4%B8%8D%E8%A6%81%E5%87%BA%E7%8E%B0retain-cycle"><span class="nav-number">1.0.4.</span> <span class="nav-text">4.注意用块引用其所属对象时不要出现retain cycle</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">iOS中的数据持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E6%A1%88"><span class="nav-number">1.1.</span> <span class="nav-text">数据持久化方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NSUserDefault%E4%B8%8EArchive%E5%BD%92%E6%A1%A3"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">NSUserDefault与Archive归档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Property-list%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">Property list文件存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQLite%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">SQLite本地数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreData"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">CoreData</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%99%E7%9B%92%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">沙盒机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B2%99%E7%9B%92%E7%9A%84%E5%AD%90%E7%9B%AE%E5%BD%95"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">沙盒的子目录</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
