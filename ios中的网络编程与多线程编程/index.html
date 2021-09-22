@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>iOS中的网络编程与多线程编程 - jmmmj</title><meta name="Description" content="jmmmj的博客"><meta property="og:title" content="iOS中的网络编程与多线程编程" />
+<meta property="og:description" content="iOS中的网络编程和多线程编程 ​ 博主的寒假学习任务的第一个任务即学习多线程编程。在读《Objective-C高级编程》（里面的GCD版本有点" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" /><meta property="og:image" content="https://jmmmj.github.io/images/logo.svg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-07T14:32:45+08:00" />
+<meta property="article:modified_time" content="2021-02-07T14:32:45+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://jmmmj.github.io/images/logo.svg"/>
+
+<meta name="twitter:title" content="iOS中的网络编程与多线程编程"/>
+<meta name="twitter:description" content="iOS中的网络编程和多线程编程 ​ 博主的寒假学习任务的第一个任务即学习多线程编程。在读《Objective-C高级编程》（里面的GCD版本有点"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" /><link rel="prev" href="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" /><link rel="next" href="https://jmmmj.github.io/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "iOS中的网络编程与多线程编程",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jmmmj.github.io\/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B\/"
+        },"image": ["https:\/\/jmmmj.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS","wordcount":  3687 ,
+        "url": "https:\/\/jmmmj.github.io\/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B\/","datePublished": "2021-02-07T14:32:45+08:00","dateModified": "2021-02-07T14:32:45+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "jmmmj","logo": "https:\/\/jmmmj.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "jmmmj"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="jmmmj"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" /> 一只大鳄霸 </a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/jmmmj" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="jmmmj"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" /> 一只大鳄霸 </a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/jmmmj" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">iOS中的网络编程与多线程编程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>jmmmj</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"><i class="far fa-folder fa-fw"></i>技术笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-07">2021-02-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3687 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;<span id="/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" class="leancloud_visitors" data-flag-title="iOS中的网络编程与多线程编程">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#多线程编程">多线程编程</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#nsthread">NSThread</a></li>
+            <li><a href="#gcd">GCD⭐⭐⭐</a></li>
+            <li><a href="#nsoperation">NSOperation</a></li>
+            <li><a href="#线程安全">线程安全</a></li>
+            <li><a href="#同步机制">同步机制</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#网络编程">网络编程</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#http与https">HTTP与HTTPS</a></li>
+            <li><a href="#数据格式">数据格式</a></li>
+            <li><a href="#nsurlsession">NSURLSession</a></li>
+            <li><a href="#networkframework">Network.framework</a></li>
+            <li><a href="#afnetworking">AFNetWorking</a></li>
+            <li><a href="#ttnetworkmanager">TTNetworkManager</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="ios中的网络编程和多线程编程">iOS中的网络编程和多线程编程</h1>
+<p>​		博主的寒假学习任务的第一个任务即学习多线程编程。在读《Objective-C高级编程》（里面的GCD版本有点老）的时候我了解了block和GCD多线程编程的使用方法，在网易彩票demo自定义tabbar切换场景和翻牌游戏的翻牌动画中进行了使用。私以为网络编程和多线程编程是学习iOS开发中的重点，下面来归纳整理一些相关知识。</p>
+<p>​		移动互联网时代几乎所有的应用程序都要使用网络请求，而为了编写高效的网络请求模块，开发者必须能灵活运用多线程的各种操作。</p>
+<h2 id="多线程编程">多线程编程</h2>
+<p>​		先来简单复习一下操作系统里线程的概念：</p>
+<ol>
+<li>
+<p><strong>线程是操作系统任务调度的基本单元</strong>，合理使用多线程才能充分利用多核CPU，合理设置优先级让重要的任务更快完成（比如主线程）。</p>
+</li>
+<li>
+<p><strong>线程共享一个进程内的资源</strong>，共享虚拟内存/描述符等，多个线程访问贡献资源可能会存在竞争。</p>
+</li>
+<li>
+<p><strong>线程有独立的调用栈/本地变量/寄存器上下文</strong>，线程的创建/销毁/切换也是有一定开销的，只不过这个开销要比进程小。</p>
+<p>多线程指从软件或硬件上实现多个线程并发执行的技术，进而提升整体的处理性能。</p>
+</li>
+</ol>
+<p>​		iOS中实现多线程编程主要有三个方法，也有四个的说法。主要的三个指的是：NSThread、GCD和NSOperation。四个的说法是因为OC兼容了C语言，故而C语言中的POSIX接口也可以用来使用多线程，也就是引用C的头文件pthread.h（博主在学校的操作系统实验里用了这个写多线程，好麻烦…）。</p>
+<p>​		多线程编程的难点主要有：多线程下操作的顺序不可预测、编译器优化会重排代码、CPU会乱序执行指令，因此不要对执行顺序妄作假设。</p>
+<p>​</p>
+<h4 id="nsthread">NSThread</h4>
+<p>​		NSThread是封装程度最小、最轻量级的多线程编程接口，它使用更灵活，但要手动管理线程的生命周期、线程同步和线程加锁等，开销较大。其使用比较简单，可以动态创建初始化NSTread对象。静态快速创建并开启一个新线程可以使用+detachNewThreadSelector:toTarget:withObject与+detachNewThreadWithBlock:。</p>
+<p>​		NSObject基类对象提供了隐式快速创建NSThread线程的performSelector系列扩展工具类方法（如在指定线程上执行方法的performSelector:onThread:withObject:waitUntilDone:），和一些静态工具接口来控制当前线程以及获取当前线程的一些信息。</p>
+<p>​		部分常用的方法包括：开启线程（start）、是否开启了多线程（+isMultiThreaded）、获取当前线程（+currentThread）、获取主线程（+mainThread）、睡眠当前进程、设置优先级（.threadPriority）等。</p>
+<h4 id="gcd">GCD⭐⭐⭐</h4>
+<p>​		GCD，即Grand Central Dispatch，又叫大中央调度（某些书会译作大中枢派发），它对线程的操作进行了封装，加入了很多新特性，内部进行了效率优化，提供了简洁的C语言接口，使用更加简单高效，也是苹果公司提供的方式。</p>
+<p>​		GCD的好处包括有：GCD可用于多核的并行计算；GCD会自动利用更多的CPU内核；GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）</p>
+<p>​		GCD的队列主要有三种：全局并发队列、主队列和用户创建的队列，队列按并发性可分为并发队列和串行队列。主队列的本质是串行队列。注意队列和线程并不是一一对应，主线程上执行的队列可能不止一个。</p>
+<p>​		队列中的任务又有执行方式的区别，分为同步执行（dispatch_async）和异步执行（dispatch_sync）。同步指阻塞当前线程，等添加的耗时任务完成后再返回，而异步则是将任务添加到队列后返回，后面的代码不需要等待添加的任务完成即可继续执行。</p>
+<p>​		注意理解不同队列和不同执行方式的组合。这个比较难以理解，写起来篇幅挺长的^^，可以参考一下别的好博客。</p>
+<p>​		一些常用函数：</p>
+<p>​		dispatch_once_t：控制代码指定代码只执行一次，常用来实现单例模式。</p>
+<p>​		dispatch_after：提交的任务从提交开始后的指定时间执行。</p>
+<p>​		dispatch_group_t：组调度，实现等待一组操作都完成后执行后续操作，应用场景有比如大图片下载，分块下载再拼接。</p>
+<p>​		dispatch_barrier_async：设置栅栏，栅栏后的任务一定在栅栏前的任务们完成之后执行。</p>
+<p>​		队列优先级建议使用默认的default优先级。</p>
+<h4 id="nsoperation">NSOperation</h4>
+<p>​		NSOperation是基于GCD的一个基类，它也不需要管理线程的声明周期和同步，但比GCD可控性更强，可以指定任务依赖、设置并发数、取消任务和KVO监听任务状态。</p>
+<p>​		NSOperation是一个抽象基类，使用时使用的是其两个实体子类NSBlockOperation和NSInvocationOperation（前者指定操作的Block，后者指定操作的方法）。异步执行可以加入NSOperationQueue，具体使用可以看API的说明。</p>
+<h4 id="线程安全">线程安全</h4>
+<p>​		定义：当多个线程访问同一个对象时，如果不用考虑这些线程在运行时环境下的调度和交替运行，也不需要进行额外的同步，或者在调用方进行任何其他的协调操作，调用这个对象的行为都可以获取正确的结果，那么这个对象是线程安全的。</p>
+<p>​		iOS中线程不安全的对象，如NSMutableArray，在其说明文档中没有被注明线程安全。</p>
+<p>​		只能在某个线程使用的对象：UIKit/CoreAnimation中几乎所有的对象都只能在主线程中使用，但也有例外：UIImage和UIFont。</p>
+<p>​		在Xcode可以开启Thread Sanitizer来帮助检查哪些代码违反了线程安全的原则，Main Thread Checker来帮助查看是否有不安全的API使用。</p>
+<p>​</p>
+<h4 id="同步机制">同步机制</h4>
+<p>​		iOS里的同步机制主要有：</p>
+<p>​		<strong>@synchronized</strong>：OC语言提供的内置的同步机制，使用的方法很简单，@synchronized(要同步的对象指针){}</p>
+<p>​		<strong>NSLock/NSRecursiveLock</strong>：创建一个NSLock的实例，调用-lock和-unlock来上锁和开锁。注意开关锁之间是可以嵌套锁的，而NSRecursiveLock可以保证嵌套调用时不会死锁。</p>
+<p>​		<strong>GCD的同步机制</strong>：同步执行、创建串行队列、组队列、阻塞任务（barrier）、以及信号量机制（dispatch_semapore）。</p>
+<p>​		<strong>NSOperation同步机制</strong>：设置依赖性、最大并发数。</p>
+<p>​		多线程练习小游戏：deadlockempire.github.io</p>
+<h2 id="网络编程">网络编程</h2>
+<p>​		在计算机网络里我们深入了解了HTTP这一超文本传输协议，iOS开发中发送HTTP请求有以下几种方案：NSURLConnection、NSURLSession（iOS7之后逐渐取代NSURLConnection）、CFNetwork（用于TLS、TCP和UDP连接，需要iOS12+）和其他第三方网络请求框架（如OC里的AFNetworking，TTNetWorkManager）。</p>
+<h4 id="http与https">HTTP与HTTPS</h4>
+<p>​		HTTP：HTTP现在最新的是2.0版本，比起1.1版本它支持多路复用（二进制分帧）、服务端主动推送（现在推送主要有长连接和客户端轮询）、头部压缩、随时复位、优先权等。</p>
+<p>​		HTTPS：HTTP协议是以明文方式发送内容，为了解决这个安全性的缺陷，HTTPS在HTTP的基础上加入了SSL加密传输协议，增加了TLS层（传输层安全），依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密，使用端口号443。</p>
+<p>​		Charles抓包工具，截取HTTP和HTTPS网络数据，可以改数据。</p>
+<p>​</p>
+<h4 id="数据格式">数据格式</h4>
+<p>​		主要有JSON（最常用）和PB，苹果官方提供了JSON的序列化和反序列化的API。</p>
+<p>​		JSON我们都熟悉，是JS的对象表示法，独立于语言和环境的轻量级文本数据交换格式，在网络传输中一般是使用GZip压缩算法。</p>
+<p>​		PB则是一种比JSON体积更小、解析速度更快的结构化数据存储格式，编译期间就可保证正确性，采用标识-长度-字段值表示单个数据（T-L-V数据存储方式），缺点是服务端新增字段就需要重新生成打包文件。</p>
+<h4 id="nsurlsession">NSURLSession</h4>
+<p>​		通过task来管理，主要有四种task：</p>
+<ol>
+<li>DataTask：数据请求</li>
+<li>DownloadTask：文件下载、下载进度、断点续传等</li>
+<li>UploadTask：文件上传</li>
+<li>StreamTask：TCP连接（iOS9+）</li>
+</ol>
+<h4 id="networkframework">Network.framework</h4>
+<p>​		Network.framework具有智能建立连接、优化数据传输、进行安全加密、兼容移动网络等特性，使用参考苹果的API说明文档。</p>
+<h4 id="afnetworking">AFNetWorking</h4>
+<p>​		很好用的第三方框架，在GitHub上可以看到其说明文档。</p>
+<h4 id="ttnetworkmanager">TTNetworkManager</h4>
+<p>​		头条自研的API，暂时没有使用过，主要有如下特性：</p>
+<ol>
+<li>
+<p>具有AFNetwork和ChromeNet内核，可以动态切换</p>
+</li>
+<li>
+<p>有细致的timing信息，可以用来排查网络瓶颈。</p>
+</li>
+<li>
+<p>错误信息明确</p>
+</li>
+<li>
+<p>C++跨平台源码公开</p>
+</li>
+<li>
+<p>支持HTTPDNS（传统的DNS需要在运营商进行IP地址转换，HTTP可以在服务器存储的列表中拿到IP地址）</p>
+</li>
+<li>
+<p>支持HTTP2.0和QUIC</p>
+</li>
+<li>
+<p>支持选路和流控等新功能</p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-02-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" data-title="iOS中的网络编程与多线程编程" data-hashtags="iOS"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" data-hashtag="iOS"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" data-title="iOS中的网络编程与多线程编程"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" data-title="iOS中的网络编程与多线程编程"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" data-title="iOS中的网络编程与多线程编程" data-ralateuid="u/5640146183"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/ios/">iOS</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="prev" rel="prev" title="iOS中的内存管理"><i class="fas fa-angle-left fa-fw"></i>iOS中的内存管理</a>
+            <a href="/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="next" rel="next" title="Java学习笔记">Java学习笔记<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jmmmj</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-cn","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

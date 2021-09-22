@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>iOS中的内存管理 - jmmmj</title><meta name="Description" content="jmmmj的博客"><meta property="og:title" content="iOS中的内存管理" />
+<meta property="og:description" content="iOS中的内存管理 ​ 小心内存管理，小心内存管理，小心内存管理！需要不断积累和深入思考才能写出高质量的安全代码。内存管理直接决定着程序的安全性" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" /><meta property="og:image" content="https://jmmmj.github.io/images/logo.svg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-06T14:44:43+08:00" />
+<meta property="article:modified_time" content="2021-02-06T14:44:43+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://jmmmj.github.io/images/logo.svg"/>
+
+<meta name="twitter:title" content="iOS中的内存管理"/>
+<meta name="twitter:description" content="iOS中的内存管理 ​ 小心内存管理，小心内存管理，小心内存管理！需要不断积累和深入思考才能写出高质量的安全代码。内存管理直接决定着程序的安全性"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" /><link rel="prev" href="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" /><link rel="next" href="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "iOS中的内存管理",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jmmmj.github.io\/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86\/"
+        },"image": ["https:\/\/jmmmj.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS","wordcount":  2362 ,
+        "url": "https:\/\/jmmmj.github.io\/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86\/","datePublished": "2021-02-06T14:44:43+08:00","dateModified": "2021-02-06T14:44:43+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "jmmmj","logo": "https:\/\/jmmmj.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "jmmmj"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="jmmmj"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" /> 一只大鳄霸 </a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/jmmmj" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="jmmmj"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" /> 一只大鳄霸 </a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/jmmmj" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">iOS中的内存管理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>jmmmj</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"><i class="far fa-folder fa-fw"></i>技术笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-06">2021-02-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2362 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;<span id="/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="leancloud_visitors" data-flag-title="iOS中的内存管理">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#内存管理">内存管理</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#内存泄漏和安全释放">内存泄漏和安全释放</a></li>
+            <li><a href="#僵尸对象野指针空指针">僵尸对象、野指针、空指针</a></li>
+            <li><a href="#gc与rc">GC与RC</a></li>
+            <li><a href="#allocdeallocretainrelease">alloc、dealloc、retain、release</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#内存管理机制">内存管理机制</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#block中避免引用循环">block中避免引用循环</a></li>
+            <li><a href="#caanimation的代理是强引用">CAAnimation的代理是强引用</a></li>
+            <li><a href="#手动释放的法则">手动释放的法则</a></li>
+            <li><a href="#autoreleasepool">autoreleasepool</a></li>
+            <li><a href="#其他注意事项">其他注意事项</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="ios中的内存管理">iOS中的内存管理</h1>
+<p>​		小心内存管理，小心内存管理，小心内存管理！需要不断积累和深入思考才能写出高质量的安全代码。内存管理直接决定着程序的安全性和稳定性，内存管理核心的话题主要包括：循环引用、内存泄露、内存管理规则和垃圾回收机制等。</p>
+<h2 id="内存管理">内存管理</h2>
+<h4 id="内存泄漏和安全释放">内存泄漏和安全释放</h4>
+<p>​		内存泄露指的是动态分配内存的对象在使用完后没有被系统回收内存，导致该对象始终占用内存，又无法通过代码访问，属于内存管理出错，如果出现大量内存泄露，那么会导致系统内存不足的问题。</p>
+<p>​		安全释放指释放掉不再使用的对象的同时不会造成内存泄露或指针悬挂问题的操作。为了保证安全释放，在对象dealloc后要将其指针置为nil。另外要严格遵守内存管理原则，保证对象的引用计数正确，同时要注意避免引用循环的出现。</p>
+<p>​		要求我们养成良好的编程习惯，可以借助Xcode的Instruments调试工具检测有内存泄露隐患的代码。</p>
+<h4 id="僵尸对象野指针空指针">僵尸对象、野指针、空指针</h4>
+<p>​		僵尸对象：引用计数为零的OC对象被释放后就变成僵尸对象，内存已经被系统回收，虽然对象还可能存在，数据依然在内存中，但是已经是不稳定对象了，不可以再访问和使用。僵尸对象所占内存是正常的，不会造成内存泄露。</p>
+<p>​		野指针：又称为&quot;悬挂指针&quot;，野指针出现的原因是指针没有赋值，或者原指向的对象被释放了。野指针指向随机的一块垃圾内存，向它们发送消息会报EXC_BAD_ACCESS错误导致程序崩溃。</p>
+<p>​		空指针：不同于野指针，它是没有指向任何内容的指针，但是是有效指针，其值为nil、NULL、0、Nil等，向其发消息不会报错。</p>
+<h4 id="gc与rc">GC与RC</h4>
+<p>​		GC即垃圾回收机制Garbage Collection，它是宏观地对整体进行内存管理，将所有对象看作一个集合，然后在GC循环中定时检测活动对象和非活动对象，及时将用不到的非活动对象释放掉以避免内存泄露。</p>
+<p>​		RC即引用计数Reference Counting，是局部性的，OC中每次Runloop都会检查对象引用计数，引用计数为0后会被系统马上释放掉。而自动释放池像一个局部的垃圾回收，将部分垃圾对象集中释放，相对于单个释放会有一定的延迟。</p>
+<p>​		OC支持垃圾回收机制，但是有平台局限性，仅限于Mac桌面开发中，而在移动设备开发中不支持垃圾回收机制。移动设备开发中的内存管理采用MRC手动引用技术或ARC自动引用计数，通过计数引用的方式来管理内存的分配和释放。</p>
+<h4 id="allocdeallocretainrelease">alloc、dealloc、retain、release</h4>
+<p>​		alloc：创建对象，刚创建的对象默认引用计数为1，相当于在alloc创建过程中调用一次retain使引用计数+1。</p>
+<p>​		dealloc：销毁对象，在对象引用计数为0的时候系统自动调用。</p>
+<p>​		retain：保留对象，使对象引用计数+1。</p>
+<p>​		release：释放对象，使对象的引用计数-1。</p>
+<p>​		需要注意retain、release方法只能在MRC下可以使用。</p>
+<h2 id="内存管理机制">内存管理机制</h2>
+<h4 id="block中避免引用循环">block中避免引用循环</h4>
+<p>​		在一个对象中强引用了一个block，在该block中又强引用了该对象，就会出现该对象和该block的循环引用。解决这个引用循环一般有两种方法：一种是将一方强制置为nil，破坏循环；另一种是使用_ _ weak或 _ _block修饰对象。</p>
+<h4 id="caanimation的代理是强引用">CAAnimation的代理是强引用</h4>
+<p>​		CAAnimation的代理是强引用，这是一个特例，因为CAAnimation动画是异步的，不是强引用可能会使其随时被释放掉。使用动画时需要采取措施避免循环引用，例如及时合适时机（在视图移除之前）移除动画。</p>
+<h4 id="手动释放的法则">手动释放的法则</h4>
+<p>​		在MRC中手动管理内存，基本原则是：谁创建，谁释放，谁引用，谁管理。即使用new、alloc、copy关键字和retain了的对象等需要手动释放掉，但设置了autorelease的对象不需要手动释放。注意数组的add操作时添加成员对象的强引用。</p>
+<p>​		MRC下静态方法创建的对象会自动进入自动释放池而不需要手动释放。例如创建一个NSString对象时注意，字面量（或被弃用的WithString）方法创建创建的是不可变字符串，位于常量内存区，可以认为已经被autorelease了，而stringWithFormat和initWithFormat方法创建的是在堆上，MRC下要手动管理内存。</p>
+<h4 id="autoreleasepool">autoreleasepool</h4>
+<p>​		autoreleasepool，即自动释放池，其实没有自身的结构，是基于多个AutoreleasePoolPage（一个C++类）以双向链表组合起来的结构，所以它的简单操作都是封装了AutoreleasePoolPage的操作结构。自动释放池位于栈上，符合先进后出原则。对比release操作的立即-1，autorelease操作是在对象的使用真正使用后才做引用计数-1，它的底层代码就是将对象添加到自动释放池。注意对一个对象连续两次调用autorelease后，由于自动释放池将其释放了不止一次，第二次释放时它成为了野指针，会导致崩溃。</p>
+<p>​		向自动释放池发送drain和release(release在支持GC的系统中不会引起回收操作)会清理自动释放池，即向池内所有对象发送release消息，故一般使用系统兼容性更强的drain消息来清理自动释放池。对于每一个新的RunLoop，系统都会隐式地创建一个自动释放池，RunLoop结束后自动释放池便会对对象进行释放操作。</p>
+<h4 id="其他注意事项">其他注意事项</h4>
+<p>​		在NotificationCenter中，添加对象到通知中心进行通知注册，通知中心只保存该对象的地址，但是没有强引用，如果这个对象释放了却没有在通知中心remove，那么通知发生时向保存的这个对象的地址发消息会导致崩溃。</p>
+<p>​		NSArray的Copy是浅拷贝，MutableCopy是深拷贝；NSMutable的Copy和MutableCopy都是深拷贝。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-02-06</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="iOS中的内存管理" data-hashtags="iOS"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-hashtag="iOS"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="iOS中的内存管理"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="iOS中的内存管理"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="iOS中的内存管理" data-ralateuid="u/5640146183"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/ios/">iOS</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/ios%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" class="prev" rel="prev" title="iOS中的数据持久化"><i class="fas fa-angle-left fa-fw"></i>iOS中的数据持久化</a>
+            <a href="/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" class="next" rel="next" title="iOS中的网络编程与多线程编程">iOS中的网络编程与多线程编程<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jmmmj</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-cn","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

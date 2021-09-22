@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Java - 标签 - jmmmj</title>
+        <link>https://jmmmj.github.io/tags/java/</link>
+        <description>Java - 标签 - jmmmj</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>jmjcoding@qq.com (jmmmj)</managingEditor>
+            <webMaster>jmjcoding@qq.com (jmmmj)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 May 2021 09:29:03 &#43;0800</lastBuildDate><atom:link href="https://jmmmj.github.io/tags/java/" rel="self" type="application/rss+xml" /><item>
+    <title>Java学习笔记</title>
+    <link>https://jmmmj.github.io/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Sat, 08 May 2021 09:29:03 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[Java 学习笔记 基本程序设计 标准输入/输出流 System.out：标准输出流类OutputStream的对象 System.in：标准输入流类Inp]]></description>
+</item></channel>
+</rss>

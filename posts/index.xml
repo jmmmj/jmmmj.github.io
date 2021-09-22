@@ -1,0 +1,64 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>所有文章 - jmmmj</title>
+        <link>https://jmmmj.github.io/posts/</link>
+        <description>所有文章 | jmmmj</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>jmjcoding@qq.com (jmmmj)</managingEditor>
+            <webMaster>jmjcoding@qq.com (jmmmj)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 22 Sep 2021 18:29:13 &#43;0800</lastBuildDate><atom:link href="https://jmmmj.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>简简单单写一段</title>
+    <link>https://jmmmj.github.io/%E5%8D%9A%E5%AE%A2%E6%90%AC%E5%AE%B6/</link>
+    <pubDate>Wed, 22 Sep 2021 18:29:13 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/%E5%8D%9A%E5%AE%A2%E6%90%AC%E5%AE%B6/</guid>
+    <description><![CDATA[<p>博客重启咯，写写之前这段时间和最近。</p>]]></description>
+</item><item>
+    <title>Java学习笔记</title>
+    <link>https://jmmmj.github.io/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Sat, 08 May 2021 09:29:03 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[Java 学习笔记 基本程序设计 标准输入/输出流 System.out：标准输出流类OutputStream的对象 System.in：标准输入流类Inp]]></description>
+</item><item>
+    <title>iOS中的网络编程与多线程编程</title>
+    <link>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</link>
+    <pubDate>Sun, 07 Feb 2021 14:32:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</guid>
+    <description><![CDATA[iOS中的网络编程和多线程编程 ​ 博主的寒假学习任务的第一个任务即学习多线程编程。在读《Objective-C高级编程》（里面的GCD版本有点]]></description>
+</item><item>
+    <title>iOS中的内存管理</title>
+    <link>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+    <pubDate>Sat, 06 Feb 2021 14:44:43 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+    <description><![CDATA[iOS中的内存管理 ​ 小心内存管理，小心内存管理，小心内存管理！需要不断积累和深入思考才能写出高质量的安全代码。内存管理直接决定着程序的安全性]]></description>
+</item><item>
+    <title>iOS中的数据持久化</title>
+    <link>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+    <pubDate>Fri, 05 Feb 2021 12:39:22 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+    <description><![CDATA[iOS中的数据持久化 ​ 数据持久化是应用开发中的重要部分，博主在编写一个网易彩票app的demo时(项目可以在我的github上找到，WYLo]]></description>
+</item><item>
+    <title>iOS中的图层与动画</title>
+    <link>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB/</link>
+    <pubDate>Thu, 04 Feb 2021 11:33:01 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/ios%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%B1%82%E4%B8%8E%E5%8A%A8%E7%94%BB/</guid>
+    <description><![CDATA[iOS中的图层与动画 ​ 前段时间博主开发了一个旦旦翻牌game的小demo（寒假实验室的学习任务，可以在我的github上找到CardGame]]></description>
+</item><item>
+    <title>计算机操作系统原理复习笔记</title>
+    <link>https://jmmmj.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Wed, 03 Feb 2021 20:37:39 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[计算机操作系统 第一章 绪论 1.1 操作系统与计算机体系结构的关系 操作系统与各层的关系 (1) OS对各层的管理和控制 ① 与硬件的关系：控制CPU的工作；访问存]]></description>
+</item><item>
+    <title>计算机网络复习笔记</title>
+    <link>https://jmmmj.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Fri, 22 Jan 2021 20:26:55 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[计算机网络复习笔记 第一章 计算机网络和因特网 1.1 什么是因特网——因特网的具体构成 两种方式回答： 1.描述因特网的具体构成(具体硬件和软件组件) 2.]]></description>
+</item></channel>
+</rss>

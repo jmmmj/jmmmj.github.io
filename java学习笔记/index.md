@@ -1,0 +1,2319 @@
+# Java学习笔记
+
+
+
+
+# Java 学习笔记
+
+
+
+### 基本程序设计
+
+- 标准输入/输出流
+  System.out：标准输出流类OutputStream的对象
+  System.in：标准输入流类InputStream的对象
+  Scanner类（java.util.Scanner）
+  Scanner scanner = new Scanner(System.in);
+  //构造函数Scanner的参数类型也可为java.io.File
+  //这是Scanner就从文件而不是标准输入流读取数据
+  double d = scanner.nextDouble( ); 
+  方法：
+      nextByte( )、nextShort( )、nextInt( )
+      nextLong( )、nextFloat( )、nextDouble( )
+      next( ) 读入一个字符串
+
+  如果输入的不是一个合法的值，这些语句会抛出异常
+
+- 标识符
+
+  命名规则
+  	标识符是由字母、数字、下划线( )、美元符号($)组成的字符序列，必须以字母、下划线(_)或美元符号($)开头，不能以数字开头，不能是保留字，可以为任意长度，但编译通常只接受前128字符。
+
+- 变量声明
+
+  ​	datatype variableName <= expression>;
+
+- 常量声明
+
+  ​	final datatype CONSTANT_NAME = value;
+
+  ​	//常量的声明和初始化必须同时完成
+
+- 赋值语句
+
+  ​	variable = expression;
+
+- 数据类型
+
+  ![image-20210507103457758](JAVA学习笔记/image-20210507103457758.png)
+
+  整数
+  	byte	8位带符号整数
+  	short	16位带符号整数
+  	int	32位带符号整数
+  	long	64位带符号整数
+  浮点数
+  	float	32位浮点数
+  	double	64位浮点数
+
+  范围：byte < char < short < int < long < float < double 
+
+  整数字面值
+  	以0开头表示八进制，如035；以0x或0X开头表示十六进制，如0x1D,0X1d；以1-9开头表示十进制，如29
+  	后缀字母：以l或L结尾表示long类型，如29L；无后缀表示int类型。
+  浮点数字面值
+  	浮点数是包含小数点的十进制数，后跟可选的指数部分。如1.8e1、18E2
+  后缀字母：以d或D结尾或者无后缀表示double类型；以f或F结尾表示float类型
+
+
+
+### 条件分支语句与运算符
+
+- if-else: if跟的括号中必须是boolean表达式 
+
+- switch：判断表达式和case常量的类型只能是char, byte, short, int, Character, Byte, Short, Integer, String, enum type（JLS 13）
+- 支持？：语句
+- 除赋值运算符之外的二元运算符都是左结合的。
+  赋值运算符和?:运算符是右结合的。
+
+
+
+### 数学函数
+
+- Math类，位于java.lang.Math中
+
+- 数学函数都是静态方法
+
+- Math类中定义了常用的数学变量如PI与E
+
+- 常用的数学函数包括
+
+  三角函数： sin、cos、tan、toRadians、toDegrees、asin、acos、atan，除了角度转弧度函数toRadians，其他函数的参数都是以弧度为单位的角度；
+
+  指数函数：exp、log、log10、pow、sqrt；
+
+  取整函数：ceil（向上取整，返回双精度整数）、floor（向下取整，返回双精度整数）、rint（返回最近整数，若与两个整数相等则优先返回偶数，返回也是双精度）、round（由参数x的精度返回x+0.5的向下取整的单精度/双精度）
+
+- 生成随机数：Math.random()，返回[0.0,1.0)之间的double类型随机数
+
+  生成随机字符： (char)(ch1+(int)(Math.rabdom()*(ch2-ch1+1)))
+
+
+
+### 字符和字符串
+
+#### 字符串
+
+- java.lang.String表示一个固定长度的字符序列，实例化后其内容不能改。
+  构造函数
+  长度(length)
+  获取字符(charAt)
+  连接(concat)
+  截取(substring)
+  比较(equals, equalsIngnoeCase, compareTo, startWith，endWith, regionMatch)
+  转换(toLowerCase, toUpperCase, trim, replace)
+  查找(indexOf, lastIndexOf)
+  字符串和数组间转换(getChars, toCharArray), 
+  字符串和数字间转换(valueOf)
+
+- String类对象创建后不可变
+
+  由于字符串是不可变的，为了提高效率和节省内存，Java中的字符串字面值维护在字符串常量池中）。这样的字符串称为规范字符串(canonical string)。
+  可以使用字符串对象（假设内容为Welcome to Java）的intern方法返回规范化字符串。intern方法会在字符串常量池中找是否已存在”Welcome to Java”,如果有返回其地址。如果没有，在池中添加“Welcome to java”再返回地址。即intern方法一定返回一个指向常量池里的字符串对象引用。
+
+  ```java
+  String s = "Welcome to Java";
+  String s1 = new String("Welcome to Java");
+  String s2 = s1.intern(); 
+  String s3 = "Welcome to Java";
+  System.out.println(s1 == s); //false
+  System.out.println(s2 == s); //true
+  System.out.println(s3 == s); //true
+  ```
+
+  
+
+- 字符串的比较
+
+  equals方法用于比较两个字符串是否包含相同的内容（字符序列）:
+  	两个字符串内容相同，返回true
+  	两个字符串内容不同，返回false
+  	比较字符串内容不能直接比较二个引用变量，比较二个引用变量只是判断这二个引用变量是否指向同一个对象（如s1 == s2）
+  equalsIgnoreCase忽略大小写比较内容是否相同
+  regionMatch比较部分内容是否相同
+  startsWith判断是否以某个字符串开始
+  endsWith判断是否以某个字符串结束
+  compareTo方法用于比较两个字符串的大小，即第一个不同字符的差值（字典序）。s1.compareTo(s2)的返回值:
+  	当两个字符串相同时，返回０
+  	当s1按字典排序在s2之前，返回小于０的值
+  	当s1按字典排序在s2之后，返回大于０的值
+
+- 字符串长度和获取单个字符
+
+  调用length( )方法可以获取字符串的长度（不是字节数，因为java里的一个char占2两个字节）
+  charAt(index)方法可以获取指定位置的字符。index必须在0到s.length()-1之间。
+
+- 连接字符串
+
+  concat方法用于连接两个字符串。例如：
+  	String s3 = s1.concat(s2);
+  使用加号(+)连接两个字符串。例如：
+  	String s3 = s1 + s2;
+  	s1 + s2 + s3 等价于s1.concat(s2).concat(s3)
+  连接操作返回一个新的字符串：因为String类型的实例内容不可修改。
+
+- 截取字串
+
+  substring用于截取字符串的一部分，返回新字符串，它有两个重载版本：
+  	public String substring(int beginIndex, int endIndex)返回字符串的子串。子串从beginIndex开始，直到endIndex-1。
+  	public String substring(int beginIndex)返回字符串的子串。子串从beginIndex开始，直到字符串的结尾。
+
+- 字符串转换
+
+  toLowerCase将字符串转换成小写形式，得到新串（对中文字符无效）
+  toUpperCase将字符串转换成大写形式，得到新串（对中文字符无效）
+  trim删除两端的空格，得到新串
+  replace字符替换，得到新串
+
+- 查找字符或字符串
+
+  indexOf返回字符串中字符或字符串匹配的位置，返回-1表示未找到，如果有多个位置出现，那么会返回第一次出现的位置。
+
+- 字符数组和字符串间的转换
+
+  toCharArray将字符串转换成字符数组
+  	String s = “Java”;
+  	char[ ] charArray = s.toCharArray( );// charArray.length=4
+  将字符数组转换成字符串
+  	使用String的构造函数，可同时初始化
+  		new String(new char[ ] {‘J’,‘a’,‘v’,‘a’} );
+  	使用valueOf方法：静态方法
+  		String.valueOf( new char[ ] {‘J’,‘a’,‘v’,‘a’} );
+  		String.valueOf(2.34);  //2.34转“2.34”
+
+  valueOf方法将基本数据类型转换为字符串。例如
+  	String s1 = String.valueOf(1.0);  //“１.0”
+  	String s2 = String.valueOf(true); //“true”
+  字符串转换为基本类型：利用包装类
+  	Double.parseDouble(str)
+  	Integer.parseInt(str)
+  	Boolean.parseBoolean(str)
+
+- StringBuilder与StringBuffer
+
+  StringBuilder与StringBuffer(final类）初始化后还可以修改字符串。
+  StringBuffer修改缓冲区的方法是同步（synchronized）的，更适合多线程环境。
+  StringBuilder线程不安全，与StringBuffer工作机制类似。
+  由于可修改字符串， StringBuilder 与StringBuffer 增加了String类没有的一些函数，例如：append、insert、delete、replace、reverse、setCharAt等。
+  仅以StringBuilder为例：
+  	StringBuilder  stringMy=new StringBuilder( );
+  	StringMy.append(“Welcome to”);
+  	StringMy.append(“ Java”);
+
+  StringBuffer用于处理可变内容的字符串，与普通String类的相似操作返回新串不同，修改它会直接修改这个串本身，具有以下方法：
+  	append方法在字符串的结尾追加数据
+  	insert方法在指定位置上插入数据
+  	reverse方法翻转字符串
+  	replace方法替换字符
+  	toString方法返回String对象
+  	capacity方法返回缓冲区的容量
+  	length方法返回缓冲区中字符的个数
+  	setLength方法设置缓冲区的长度
+  	charAt方法返回指定位置的字符
+  	setCharAt方法设置指定位置的字符
+
+  注意println不能接受StringBuffer类型，需要加toString()来实现，但是不写也会隐式完成转换。
+
+- 格式化控制台输出
+
+  JDK1.5开始提供了格式化控制台输出方法
+  System.out.printf(format, item1, item2, …); //格式化字符串，后面跟要打印的变量列表
+  格式化字符串
+  String.format(format, item1, item2, …); //返回一个格式化好了的String
+  格式描述符：%[argument_index$] [flags][width][.precision]conversion，其中
+  可选的 argument_index 是一个十进制整数，用于表明参数在参数列表中的位置。第一个参数由 "1$" 引用，第二个参数由 "2$" 引用
+  conversion：应该如何格式化参数的字符
+  	%b 布尔值		%c 字符		%d 十进制整数
+  	%f 浮点数		%e 科学计数法		%s 字符串
+  String s = String.format(“格式$：%1$d,%2$s”, 99,“abc”); //结果”格式$：99，abc“
+
+
+
+### 方法
+
+- 方法的定义
+
+  方法(method)是为执行一个复杂操作组合在一起的语句集合。一个类中可以声明多个方法。
+  语法：采用BNF范式 (Backus-Naur Form，巴科斯范式)描述（用来描述计算机语言语法的符号集）
+
+  **方法签名**(Method Signature)指**方法名称+形参列表**（不含返回类型）。**一个类中不能包含方法签名相同的多个方法**。
+  方法头中声明的变量称为形参(formal parameter)。
+
+  当调用方法时，可向形参传递一个值，这个值称为实参(actual parameter / argument)。形参可以使用final进行修饰，表示方法内部不允许修改该参数(类似C++的const)。
+  形参不允许有默认值，最后一个可为变长参数（可用…或数组定义）。
+
+  方法里不允许定义static局部变量。
+  方法可以有一个返回值(return value)。如果方法没有返回值，返回值类型为void，但构造函数没有返回值（不能加void）。
+
+- 调用方法
+
+  声明方法只给出方法的定义。要执行方法，必须调用(call/invoke)方法。
+
+  当调用方法时，程序控制权从调用者转移至被调用的方法。当执行return语句或到达方法结尾时，程序控制权转移至调用者。
+
+  方法分类的静态方法和实例方法
+  	实例方法：必须用对象名调用（对象名：指向对象的引用变量名）
+  	静态方法：可用类名调用，也可用对象名调用
+
+  ​	调用当前类中的静态方法：可直接用“方法名”，也可用”类名.方法名“（推荐）
+  ​	调用当前类中的实例方法可用“方法名” 或 “this.方法名”调用（推荐）。
+  ​	调用其它类中的静态方法：用“类名.方法名”或“对象名.方法名”
+  ​	调用其它类的的实例方法：必须用对象名.方法名
+
+  ​	子类实例函数里用” super.方法名“调用父类实例方法。（super是引用，通过super只能调用实例方法）
+
+  ​	所有静态方法提倡用”类名.方法名“调用（这样可读性好，一看到类名，就知道调用的是静态方法）。
+
+  ​	
+
+  ```java
+  public class A {
+      public static void staticMethodOfA1(){ }
+      public void instancMethodOfA1() { }
+      public void instancMethodOfA2(){
+          //调用实例方法必须通过对象引用
+          instancMethodOfA1();        //调用当前类的另一个实例方法，实际上和下面语句等价
+          this.instancMethodOfA1();   //推荐用this.调用当前类的另一个实例方法，this就是指向当前对象的引用
+  
+          //调用静态方法
+          A.staticMethodOfA1();   //推荐通过类名调用静态方法
+          staticMethodOfA1();     //如果调用当前类的静态方法，类名可以省略
+          B.staticMethodOfB();    //调用另外一个类的静态方法必须用类名
+  
+          //调用另外一个类的实例方法必须通过指向另外一个类的对象的引用
+          new B().instancMethodOfB();
+      }
+  }
+  
+  public class B{
+      public static void staticMethodOfB() {}
+      public void instancMethodOfB() { }
+  }
+  ```
+
+- 调用堆栈
+
+  系统中专门有一个部分用来压栈调用的数据。每当调用一个方法时，系统将该方法参数、局部变量存储在一个内存区域中，这个内存区域称为调用堆栈(call stack)。当方法结束返回到调用者时，系统自动释放相应的调用栈。
+
+- 方法的参数传递
+
+  如果方法声明中包含形参，调用方法时，必须提供实参。
+  		实参的类型必须与形参的类型兼容：如子类实参可传递给父类形参。
+  		实参顺序必须与形参的顺序一致。
+
+  当调用方法时，基本数据类型是传值调用，即实参值的副本被传递给方法的形参。方法内部对形参的修改不影响实参值。(Call by value)
+
+  对象类型的参数是引用调用。（Call by reference）
+
+- 方法的重载
+
+  方法重载(overloading)是指方法名称相同，但形参列表不同的方法。仅返回类型不同的方法不是合法的重载。一个类中可以包含多个重载的方法（同名的方法可以重载多个版本）。
+  形参列表不同指参数个数不同，或至少一个参数类型不同
+  当调用方法时，Java编译器会根据实参的个数和类型寻找最合适的方法进行调用。
+  调用时匹配成功的方法可能多于一个，则会产生编译二义性错误，称为歧义调用(ambiguous invocation)。
+
+  ```java
+  //方法重载示例
+  public class TestMethodOverloading {
+  	
+  	/** Return the max between two int values */
+      	public static int max(int num1, int num2) {
+          		return (num1 > num2) ？num1:num2; 	
+      	}
+  
+     	 /** Return the max between two double values */
+      	public static double max(double num1, double num2) {
+          		return (num1 > num2) ？num1:num2;
+      	}
+  
+      	/** Return the max among three double values */
+      	public static double max(double num1, double num2, double num3) {
+          		return max(max(num1, num2), num3);
+      	}
+  }
+  ```
+
+- 方法局部变量的作用域
+
+  方法内部声明的变量称为局部变量(local variable)。方法的形参等同于局部变量。
+  局部变量的作用域(scope)指程序中可以使用该变量的部分。
+  局部变量的作用域从它的声明处开始，直到包含该变量的程序块{}结束。局部变量在使用前必须先赋值。局部变量的生命期和其作用域相同,因为{}结束时，局部变量出栈。
+  在方法中，**可以在不同的非嵌套程序块中以相同的名称多次声明局部变量。但不能在嵌套的块中以相同的名称多次声明局部变量**。
+  在for语句的初始动作部分声明的变量，作用域是整个循环体。在for语句循环体中声明的变量，作用域从变量声明开始到循环体结束。
+
+  
+
+  ### 数组
+
+- 数组的基础知识
+
+  数组(array)是相同类型变量集合(这里的集合不是JDK的Collection）
+  数组类型的变量是引用相同类型变量集合的引用变量
+
+  数组元素本身也可以是引用变量。
+
+  多维数组只是数组的数组，故数组元素也可能是引用类型变量
+  **凡使用new创建数组后，内存单元都初始化为0或null**
+
+  任何实例化的数组都是Object的子类。数组引用变量声明语法：
+  	datatype[ ] arrayRefVar;    //提倡的写法：类型在前，[ ]在后
+  	例如：
+  	double[ ] myList;   //这时myList为null
+  	或者
+  	datatype arrayRefVar[ ];
+  	例如：
+  	double myList[ ];
+  	double [ ] a[ ];   //double[][] a;
+  数组变量是引用类型的变量，声明数组引用变量并不分配数组内存空间。必须通过new实例化数组来分配数组内存空间。
+
+  使用new操作符创建数组。
+  	arrayRefVar = new datatype[arraySize];
+  	例如：
+  	myList = new double[10]; //这时才分配内存
+  声明和创建在一条语句中。
+  	datatype[ ] arrayRefVar= new datatype[arraySize]；
+  	或者
+  	datatype arrayRefVar[ ] = new datatype[arraySize]；
+  	例如：
+  	double[ ] myList = new double[10];
+  	或者
+  	double myList[ ] = new double[10];
+
+  新创建的数组对象，其元素根据类型被设置为默认的初始值（实际上都为0）。
+  	数值类型为0
+  	字符类型为’\u0000’                  //u后面为十六进制，必须4位写满
+  	布尔类型为false
+  	引用类型为null
+
+  数组可以在声明后的花括号中提供初始值。
+  double[ ] myList = {1.9, 2.9, 3, 3.5}//可以将int转化为double类型，这时不用指定维度size
+  或者
+  double[ ] myList;
+  myList = new double[ ] {1.9, 2, 3.4, 3.5} //可以将int转化为double类型，声明和创建不在一条语句时，不能直接用{ }来初始化
+
+  数组的大小在创建这个数组之后不能被改变。用.length来访问长度。
+
+  数组元素通过索引进行访问。元素的索引从0开始，范围从0到length-1。
+
+- 数组的复制
+
+  直接使用赋值语句不能实现数组复制，结果是两个数组引用变量指向同一个数组对象（浅拷贝赋值）。
+
+  复制数组的方法
+  	使用循环来复制每个元素
+  	使用System.arraycopy方法：两个数组都预先实例化了
+  	调用数组的clone方法复制：被复制的数组变量可以没有实例化
+
+- 数组传递给方法
+
+  可以将数组变量作为实参传递给方法。
+  基本数据类型传递的是实际值的拷贝，修改形参，不影响实参。
+  数组引用变量传递的是对象的引用，修改形参引用的数组，将改变实参引用的数组。
+
+  也可以从方法中返回数组，返回的也是引用。
+
+  （引用类型的实参传递给形参后，实参、形参指向同一个对象。但是，对于String类、基本数据类型的包装类型的实参传递给形参，形参变了不会导致实参变化。这是因为对于String、Integer这样内容不可改变的对象，当对其赋值时实际上创建了一个新的对象，这是为了设计上保持和未包装的类型的特性一致。）
+
+- 可变长参数列表
+
+  可以把类型相同但个数可变的参数传递给方法。方法中的可变长参数声明如下
+  	typeName … parameterName
+  在方法声明中，指定类型后面跟省略号
+  只能给方法指定一个可变长参数，同时该参数必须是最后一个参数
+  Java将可变长参数当数组看待，通过length属性得到可变参数的个数
+  	print(String... args){   //可看作String [ ]args   		for(String  temp:args)      			System.out.println(temp);
+  		System.out.println(args.length);	}
+  调用该方法
+  	print("hello","lisy");
+
+- Arrays类
+
+  java.util.Arrays类包括各种静态方法，其中实现了数组的排序和查找
+  排序
+  	    double[ ] numbers={6.0, 4.4, 1.9, 2.9};
+  	    java.util.Arrays.sort(numbers); //注意直接在原数组排序
+  二分查找
+   	    int[ ] list={2, 4, 7, 10, 11, 45, 50};
+  	    int index = java.util.Arrays.binarySearch(list, 11);
+  Arrays和String是常用的两个值得研究的类。
+
+- 命令行参数
+
+  可以从命令行向java程序传递参数。参数以空格分隔，如果参数本身包含空格，用双引号括起来。格式：
+  java 类名 参数１ 参数２ …
+  例如   java TestMain “First number” alpha  53
+  命令行参数将传递给main方法的args参数。args是一个字符串数组，可以通过数组下标访问每个参数。
+  public static void main(String[ ] args)
+  注意Java的命令行参数不包括类名， args.length==3
+  可变长参数用…定义。args是一个字符串数组，可以定义为可变长参数。String … args可以当成String[ ] args数组使用。
+  public static void main(String … args)  //也可以作为启动函数
+  注意在定义重载函数时，编译器认为String[] args和String … args类型相同
+
+  
+
+### 类和对象
+
+- 类和对象的UML表示
+
+  对象(object)是现实世界中可识别(不一定可见)的实体，对象具有状态和行为。其状态是其属性的当前值，其行为是一系列方法，这些方法可改变对象的状态。对象：学生、按钮、政府等。
+
+  类(class)定义或封装同类对象共有的属性和方法，即将同类型对象共有的属性和行为抽象出来形成类的定义。
+  例如要开发学生管理系统，根据应用需求，我们发现所有学生的以下共有属性和行为需要管理
+  属性：学号、姓名、性别、所在学院、年级、班级
+  行为：考试、上课、完成作业
+  因此形成类的定义：Class Student{ … },属性作为数据成员，行为作为方法成员
+  同一类型的对象有相同的属性和方法，但每个对象的属性值不同。
+
+  类(类型简称)是对象的模板、蓝图。对象是类的实例。
+
+  UML：广泛应用的面向对象设计的的建模工具，但独立于任何具体程序设计语言。作为一种建模语言，UML有严格的语法和语义规范。对于复杂系统，先用UML建模，再编写代码。UML工具会自动把模型编译成Java(C++）源码（方法体是空的）
+  UML采用一组图形符号来描述软件模型，这些图形符号简单、直观和规范。所描述的软件模型，可以直观地理解和阅读，由于具有规范性，所以能够保证模型的准确、一致。
+
+  ![image-20210331081800399](JAVA学习笔记/image-20210331081800399.png)
+
+- 定义类并用new创建其对象
+
+  new根据传参自动选择调用的构造函数
+
+  注意：如果创建对象数组，则其成员缺省值为null，这和C++自动创建数组成员对象不一样。
+
+  ```java
+  Circle[] circleArray = new Circle[10]; //这时没有构造Circle对象，只是构造数组
+  for(int i = 0; i < circleArray.length; i++) {
+  	circleArray[i] = new Circle( );    //这时才构造Circle对象，可使用有参构造函数
+  }
+  ```
+
+- 构造器（constructor）
+
+  无返回类型，名字同类名，用于初始化对象。
+  注意JAVA如果在前面加void，即定义void className(…)，被认为是普通方法而不是构造器方法
+  无法被显式调用，只在new时被自动执行。
+  必须是实例方法（无static），可为公有、保护、私有和包级权限。
+  类的变量为引用(相当于C指针)，指向实例化好的对象。
+  	Circle c2=new Circle(5.0);//调用时必须有括弧，可带参初始化
+  缺省构造函数(同C++)
+  	如果类未定义任何构造函数，编译器会自动提供一个不带参数的默认构造函数。
+  	如果已自定义构造函数，则不会提供默认构造函数。
+  Java没有析构函数，但垃圾自动回收之前会自动调用finalize( )，可以覆盖定义该函数（但是finalize调用时机程序员无法控制）。
+
+- 对象访问、向方法传递对象引用
+
+  访问对象：通过对象引用访问。JVM维护每个对象的引用计数器，只要引用计数器为0，该对象会由JVM自动回收。通过对象引用，可以
+  	访问对象的实例变量(非静态数据字段)：c2.radius。
+  	调用对象的实例方法：c2.findArea( )。通过c2调用实例方法时，c2引用会传给实例方法里的this引用。
+  	也可访问静态成员和静态方法（不推荐。推荐用类名）
+  在实例方法中有个this引用，代表当前对象(引用当前对象：相当于指针)，因此在实例方法里，可以用this引用访问当前对象成员
+  	this.radius
+  	this.findArea( )；
+  	在构造器中调用构造器（通过”this(构造器参数)的方式“调用 ），须防止递归调用
+  	不能对this进行赋值
+  匿名对象也可访问实例(或静态)成员
+
+  与基本数据类型变量不同：引用变量表示数据的内存单元地址或存储位置。
+  	基本类型变量存储的是基本类型的值。
+  	数组和类是引用类型变量。它引用了内存里的数组或对象。每个对象（数组）有引用计数。
+  	引用类型变量存储的是对象的引用。当变量未引用任何对象或未实例化时，它是值为null。
+
+  一个对象的引用计数=0时被自动回收。
+
+  对象作为方法参数时与传递数组一样，传递对象实际是传递对象的引用。
+
+  Java无类似C++的&或C#的ref来修饰方法参数，只能靠形参的声明类型来区分是传值还是传引用，因此一定要注意区分。
+
+- 包
+
+  包是一组相关的类和接口的集合。将类和接口分装在不同的包中，可以避免重名类的冲突，更有效地管理众多的类和接口。因此package就是C++里的namespace
+  包的定义通过关键字package来实现的 ，package语句的一般形式：
+  		 package  包名; 
+  package语句必须出现在.java文件第一行，前面不能有注释行也不能有空白行，该.java文件里定义的所有内容（类、接口、枚举）都属于package所定义的包里。如果.java文件第一行没有package语句，则该文件定义的所有内容位于default包（缺省名字空间），但不推荐。
+  不同.java文件里的内容都可以属于同一个包，只要它们第一条package语句的包名相同
+
+  package本质上就是C++里的namespace，因此
+  在同一个package里不能定义同名的标识符（类名，接口名，枚举名）。例如一个类名和一个接口名不能相同
+  如果要使用其它包里标识符，有二个办法：
+  用完全限定名，例如要调用java.util包里的Arrays类的sort方法：				java.util.Arrays.sort(list)；
+  在package语句后面，先引入要使用其它包里的标识符，再使用：
+  		import java.util.Arrays;  //或者： import java.util.*; 
+  		Arrays.sort(list)；
+  import语句可以有多条，分别引入多个包里的名字
+
+  使用二种import的区别
+  	单类型导入(single type import)：导入包里一个具体的标识符，如
+  		import java.util.Arrays;
+  	按需类型导入(type import on demand)：并非导入一个包里的所有类，只是按需导入
+  		import java.util.*;
+  这二种导入的区别类似C++里二种使用名字空间方式的区别
+  	单类型导入：把导入的标识符引入到当前.java文件，因此当前文件里不能定义同名的标识符，类似C++里 using nm::id; 把名字空间nm的名字id引入到当前代码处
+  	按需导入：不是把包里的标识符都引入到当前.java文件，只是使包里名字都可见，使得我们要使用引入包里的名字时可以不用使用完全限定名，因此在当前.java文件里可以定义与引入包里同名的标识符。但二义性只有当名字被使用时才被检测到。类似于C++里的using nm;
+
+  ```java
+  package p1;
+  
+  public class A {
+  
+  }
+  
+  //方法1
+  package p2;
+  
+  //单类型导入，把p1.A引入到当前域
+  import p1.A;
+    
+  //这个时候当前文件里不能定义A，
+  //下面语句编译报错
+  public class A {
+  
+  }
+  
+  //方法二
+  package p2;
+  
+  import p1.*;  //按需导入，没有马上把p1.A引入到当前域
+  
+  //因此当前文件里可以定义A
+  public class A {
+      public static void main(String[] args){
+          A a1 = new A();     //这时A是p2.A
+          System.out.println(a1 instanceof p2.A); //true
+  
+  	//当前域已经定义了A，因此要想使用package p1里的A，
+  	//只能用完全限定名
+          p1.A a2 = new p1.A();
+      }
+  }
+  //如果出现了名字冲突，要用完全限定名消除冲突
+  ```
+
+  包除了起到名字空间的作用外，还有个很重要的作用：提供了package一级的访问权限控制（在Java里，成员访问控制权限除了公有、保护、私有，还多了包一级的访问控制；类的访问控制除了public外，也多了包一级的访问控制）
+  包的命名习惯: 将Internet域名作为包名 （但级别顺序相反），这样的好处是避免包名的重复
+  	org.apache.tools.zip
+  	cn.edu.hust.cs.javacourse.ch1
+  如果所有程序员都遵循这种包命名的约定，包名重复的可能性就非常小
+
+  面向对象的封装性要求最好把实例成员变量设为私有的或保护的
+  同时为私有、保护的实例成员变量提供公有的get和set方法。get和set方法遵循JavaBean的命名规范，即getPropertyName、setPropertyName
+
+- 实例(或静态)的变量、常量和方法
+
+  ```java
+  class Circle {
+      private double radius;
+      /** 私有静态变量，记录当前内存里被实例化的Circle对象个数*/
+      private static int numberOfObjects = 0; 
+  
+      public Circle() { radius = 1.0; numberOfObjects++; }
+      public Circle(double newRadius) { radius = newRadius; numberOfObjects++; }
+  
+      public double getRadius() {return radius;}
+      public void setRadius(double newRadius) { radius = newRadius;}
+      /** 公有静态方法，获取私有静态变量内容*/
+      public static int getNumberOfObjects() {return numberOfObjects;}
+  
+      /** Return the area of this circle */
+      public double findArea() {  return radius * radius * Math.PI; }
+      @Override
+      public void finalize() throws Throwable {
+          numberOfObjects--; //对象被析构时，计数器减1
+          super.finalize();
+      }
+  }
+  ```
+
+  @Override是注解(annotation)，告诉编译器这里是覆盖父类的方法。@Override可以不加，但是使用@Override注解有如下好处：
+
+  1：可以当注释用,方便阅读；
+
+  2：编译器可以给你验证@Override下面的方法名是否是父类中所有的，如果没有则报错。例如，如果没写@Override，而下面的方法名又写错了，这时你的编译器是可以编译通过的，因为编译器以为这个方法是你的子类中自己增加的方法。
+
+  Java注解为 Java 代码提供元数据。注解可以指示编译器做些额外的动作，甚至可以自定义Java注解让编译器执行自定义的动作。Java提供了Annotation API让我们自定义注解。
+
+  实例变量(instance variable):未用static修饰的成员变量，属于类的具体实例(对象)，只能通过对象访问，如“对象名.变量名” 。
+  静态变量(static variable)是用static修饰的变量，被类的所有实例(对象)共享，也称类变量。可以通过对象或类名访问，提倡“类名.变量名”访问。静态变量有单独的存储空间，与对象空间分开。
+
+  方法重载：同一个类中、或者父类子类中的多个方法具有相同的名字，但这些方法具有不同的参数列表(不含返回类型，即无法以返回类型作为方法重载的区分标准）
+
+  方法覆盖和方法隐藏：发生在父类和子类之间，前提是继承。子类中定义的方法与父类中的方法具有相同的方法名字、相同的参数列表、相同的返回类型（也允许子类中方法的返回类型是父类中方法返回类型的子类）
+  	方法覆盖：实例方法
+  	方法隐藏：静态方法
+
+  ```java
+  public class A {
+      public void m(int x, int y) {}
+      public void m(double x, double y) {}
+  
+  //下面语句报错m(int,int)已经定义, 重载函数不能通过返回类型区分
+  //    public int m(int x, int y) { return 0;}; 
+  }
+  
+  class B extends A{ //B继承了A
+      public void m(float x, float y) { } //重载了父类的m(int,int)和m(double,double)
+      public void m(int x, int y) {} //覆盖了父类的void m(int,int)，注意连返回类型都必须一致
+  
+      //注意下面这个语句报错，既不是覆盖（与父类的void m(int,int)返回类型不一样）
+      // 也不是合法的重载（和父类的m(int,int)参数完全一样，只是返回类型不一致
+  //    public int m(int x, int y) {} //错误
+      
+      //子类定义了新的重载函数int m()
+      public int m(){return 0;};
+  }
+  ```
+
+  ```java
+  class A{
+      public void m1(){ }
+      public final void m2() { }
+  
+      public static void m3() { }
+      public final static void m4() { }
+  }
+  
+  class B extends A{
+      //覆盖父类A的void  m1()
+      public void m1(){ }
+  
+      //下面语句报错，不能覆盖父类的final 方法
+  //    public void m2(){ }
+  
+      public static void m3() { } //隐藏了父类的static void m3()
+      //下面语句报错，父类final 静态方法不能被子类隐藏
+  //    public static void m4() { }
+  }
+  ```
+
+  静态方法(static method)是用static修饰的方法。
+  构造函数不能用static修饰，静态函数无this引用。
+  每个程序必须有public static void main(String[])方法。
+  静态方法可以通过对象或类名调用。
+  静态方法内部只能访问类的静态成员 (因为实例成员必须有实例才存在，当通过类名调用静态方法时，可能该类还没有一个实例）
+  静态方法没有多态性。
+
+- 可见性修饰符
+
+  类访问控制符：public和包级(默认)；类的成员访问控制符：private、protected、public和包级(默认)
+  Java继承时无继承控制(见继承，即都是公有继承，和C++不同)，故父类成员继承到派生类时访问权限保持不变（除了私有）。
+  成员访问控制符的作用：
+  	private： 只能被当前类定义的函数访问。
+  	包级：无修饰符的成员，只能被同一包中的类访问。
+  	protected：子类、同一包中的类的函数可以访问。
+  	public：  所有类的函数都可以访问。
+
+  |   访问权限   | 本类 | 本包 | 子类 | 它包 |
+  | :----------: | :--: | :--: | :--: | :--: |
+  |    public    |  √   |  √   |  √   |  √   |
+  |  protected   |  √   |  √   |  √   |  X   |
+  | 包级（默认） |  √   |  √   |  X   |  X   |
+  |   private    |  √   |  X   |  X   |  X   |
+
+  ```java
+  package p1;
+  public class C1{//在C1.java
+     public int x=1;
+     int y=2;//包级
+     protected int u=3,w=4;
+     private int z;
+     public void m1(){ 
+        int i = x = u;
+        int j = y = w;
+        int k = z;
+        m2();
+        m3(); 	
+     } 
+     void m2(){ } //包级
+     private void m3(){ }
+  }
+  
+  public class C2 extends C1{
+  //在C2.java
+     int u=5; //包级
+     void aMethod(){
+        C1 o = new C1( );//ok,C1是public
+        int i = o.x;//ok, x是public
+        int j = o.y;//ok，y(包级)，可在同一包内访问
+        int h = o.u;//ok，u(保护)可在同一包内访问
+        i=u+super.u;//ok，本类u及super.u(父类保护）
+        int k = o.z;//error，z是私有的 
+        o.m1(); //ok, m1是public
+        o.m2(); //ok, m2无访问修饰，可在同一包内访问
+        o.m3(); //error, m3是私有的            
+     }
+  }
+  
+  
+  //另一个包
+  package p2;
+  public class C3 extends C1{ //C3.java
+     int u=5;
+     void aMethod(){
+        C1 o =new C1( );//ok,C1是public
+        int i = o.x; //ok, x 是public
+        int j = o.y;//error，y(包级)，不能在不同包内访问
+        int h = o.u;//error，u(保护，当前对象非o子类对象)，不能在不同包内访问
+        i=u+super.u;//ok，本类u及super.u(保护，当前对象是父类super的子类对象）
+        int k = o.z;//error，z是私有的 
+        o.m1(); //ok, m1是public
+        o.m2(); //error, m2(包级)，不能在不同包内访问
+        o.m3(); //error, m3是私有的            
+     }
+  }
+  ```
+
+  大多数情况下，构造函数应该是公有的
+  有些特殊场合，可能会防止用户创建类的实例，这可以通过将构造函数声明为私有的来实现。
+  例如，包java.lang中的Math类的构造函数为私有的，所有的数据域和方法都是静态的，可以通过类名直接访问而不能实例化Math对象。
+  	private Math（）{   }
+
+  类的成员变量(实例变量和静态变量)的作用域是整个类，与声明的位置无关。
+  如果一个成员变量的初始化依赖于另一个变量，则另一个变量必须在前面声明。
+
+  ```java
+  public class Foo {
+  	int i;//成员变量默认初始化，new后成员默认值为0或null，函数局部变量须初始化
+  	int j = i + 1;
+      int f( ){ int i=0; return i+this.i; } //局部变量i会优先访问
+  }   //作用域越小，被访问的优先级越高
+  ```
+
+  如函数的局部变量i与类的成员变量i名称相同，那么优先访问局部变量i，成员变量i被隐藏(可用this.i或类名.i发现)。
+  嵌套作用域不能定义同名的局部变量；但类的成员变量可以和类的方法里的局部变量同名
+
+  如函数的局部变量i与类的成员变量i名称相同，那么优先访问局部变量i，成员变量i被隐藏(可用this.i或类名.i发现)。
+  嵌套作用域不能定义同名的局部变量；但类的成员变量可以和类的方法里的局部变量同名
+
+- this引用
+
+  this引用指向调用某个方法的当前对象
+  在实例方法中，实例变量被同名局部变量或方法形参隐藏，可以通过this.instanceVariable访问实例变量。
+  调用当前类的其它构造函数，需防止递归调用。
+  this(actualParameterListopt)
+  必须是构造函数的第1条语句。
+  
+  
+
+### 继承和多态
+
+- 类继承、子类和父类的isA关系
+
+  语法
+
+  ```java
+  	class ClassName extends Superclass {  
+               class body
+        } //如果父类是Object，则extends部分可省略（前面的示例代码里，每个的父类都是Object）
+  ```
+
+  如果class C1 extends C2，则称C1为子类(subclass)，C2为父类(superclass)。
+  子类继承了父类中可访问的数据和方法，子类也可添加新的数据和方法，
+  子类不继承父类的构造函数。
+  一个类只能有一个直接父类（Java不支持多重继承，因为Java的设计者认为没有必要）。
+  Java的继承都是公有继承，因此被继承的就是父类，继承的类就是子类。因此父类的成员如果被继承到子类，访问权限不变
+  因此子类和父类是ISA关系：一个子类对象ISA父类对象。
+
+  初始化块是Java类中可以出现的第四种成员（前三种包括属性、方法、构造函数），分为实例初始化块和静态初始化块。
+  实例初始化模块（instance initialization block，IIB）是一个用大括号括住的语句块，直接嵌套于类体中，不在方法内。
+  它的作用就像把它放在了类中每个构造方法的最开始位置。用于初始化对象。实例初始化块先于构造函数执行
+  作用：
+
+  如果多个构造方法共享一段代码，并且每个构造方法不会调用其他构造方法，那么可以把这段公共代码放在初始化模块中。
+  一个类可以有多个初始化模块，模块按照在类中出现的顺序执行；
+
+  实例初始化模块还有个作用是可以截获异常；
+
+  实例初始化模块最重要的作用是当我们需要写一个内部匿名类时：匿名类不可能有构造函数，这时可以用实例初始化块来初始化数据成员；
+
+  
+
+  实例初始化模块只有在创建类的实例时才会调用。
+  定义并初始化类的实例变量等价于实例初始化块：private int id = 0；
+  一个类可以有多个实例初始化块，对象被实例化时，模块按照在类中出现的顺序执行，构造函数最后运行。
+
+  静态初始化模块是由static修饰的初始化模块{}，只能访问类的静态成员，并且在JVM的Class Loader将类装入内存时调用。（类的装入和类的实例化是两个不同步骤，首先是将类装入内存，然后再实例化类的对象）。
+  在类体里直接定义静态变量相当于静态初始化块
+
+  
+
+  
+
+  如果class C1 extends C2，则称C1为子类(subclass)，C2为父类(superclass)。
+  子类继承了父类中可访问的数据和方法，子类也可添加新的数据和方法，
+  子类不继承父类的构造函数。
+  一个类只能有一个直接父类（Java不支持多重继承，因为Java的设计者认为没有必要）。
+  Java的继承都是公有继承，因此被继承的就是父类，继承的类就是子类。因此父类的成员如果被继承到子类，访问权限不变
+  因此子类和父类是ISA关系：一个子类对象ISA父类对象
+
+  初始化模块执行顺序：
+
+  第一次使用类时装入类
+  如果父类没装入则首先装入父类，这是个递归的过程，直到继承链上所有祖先类全部装入
+  装入一个类时，类的静态数据成员和静态初始化模块按它们在类中出现的顺序执行
+  实例化类的对象
+  首先构造父类对象，这是个递归过程，直到继承链上所有祖先类的对象构造好
+  构造一个类的对象时，按在类中出现的顺序执行实例数据成员的初始化及实例初始化模块
+  执行构造函数函数体
+
+- super关键字
+
+  利用super可以显式调用父类的构造函数
+  super(parametersopt)调用父类的的构造函数。
+  必须是子类构造函数的第1条且仅1条语句(先构造父类)。
+  如果子类构造函数中没有显式地调用父类的构造函数，那么将自动调用父类不带参数的构造函数。
+  父类的构造函数在子类构造函数之前执行。
+  访问父类的成员（包括静态和实例成员）
+  super不能用于静态上下文（即静态方法和静态初始化块里不能使用super），this也不能用于静态上下文
+  super.data（如果父类属性在子类可访问，包括实例和静态）
+  super.method(parameters)（如果父类方法在子类可访问，包括实例和静态）
+  不能使用super.super.p()这样的super链
+
+  如果子类中没有显式地调用父类的构造函数，那么将自动调用父类不带参数的构造函数，因为编译器会偷偷地在子类构造函数第一条语句前加上super() ；在任何情况下，构造一个类的实例时，会沿着继承链调用所有父类的构造方法，这叫构造方法链。
+
+  如果一个类自定义了构造函数（不管有无参数），编译器不会自动加上无参构造函数。
+  如果一个类没定义任何构造函数，编译器会自动地加上无参构造函数。
+  编译器在为子类添加无参构造函数时，函数体里会用super( )默认调用父类的无参构造函数，如果找不到父类无参构造函数，则编译器为子类添加无参构造函数失败，编译报错。
+  **如果一个类定义了带参数的构造函数，一定别忘了定义一个无参的构造函数，原因是：由于系统不会再自动加上无参构造函数，就造成该类没有无参构造函数**
+
+  如果父类没有无参构造函数，那么子类构造函数里若调用父类无参构造函数就会编译出错。
+
+- 实例方法覆盖
+
+  如果子类重新定义了从父类中继承的实例方法，称为方法覆盖(method override)。
+  仅当父类方法在子类里是可访问的，该实例方法才能被子类覆盖，即父类私有实例方法不能被子类覆盖，父类实例私有方法自动视为final的。
+  静态方法不能被覆盖，如果静态方法在子类中重新定义，那么父类方法将被隐藏。
+  覆盖特性：一旦父类中的实例方法被子类覆盖，同时用父类型的引用变量引用了子类对象，这时不能通过这个父类型引用变量去访问被覆盖的父类方法(即这时被覆盖的父类方法不可再被发现)。因为实例方法具有多态性（晚期绑定）
+  在子类函数中可以使用super调用被覆盖的父类方法。
+  隐藏特性：指父类的变量（实例变量、静态变量）和静态方法在子类被重新定义，但由于类的变量（实例和静态）和静态方法没有多态性，因此通过父类型引用变量访问的一定是父类变量、静态方法(即被隐藏的可再发现)。
+  方法覆盖的哲学涵义：子对象当然可以修改父类的行为（生物进化除了遗传，还有变异）
+
+  ```java
+  class A{
+      public void m() {
+          System.out.println("A's m");
+      }
+  
+      public static void s() {
+          System.out.println("A's s");
+      }
+  }
+  
+  class B extends A{
+      //覆盖父类实例方法
+      public void m() {
+          System.out.println("B's m");
+      }
+      //隐藏父类静态方法
+      public static void s() {
+          System.out.println("B's s");
+      }
+  }
+  
+  public class OverrideDemo {
+  
+      public static void main(String[] args) {
+          A o = new B();//父类型变量引用子类对象
+          o.m();//由于父类实例方法m被子类覆盖，o运行时指向B类对象，由于多态性，执行的是B的m
+          o.s();    //由于s是静态方法，没有多态性，编译器编译时对象o的声明类型是A，所以执行的是A的s
+      }
+  }
+  ```
+
+  引用变量o有二个类型：声明类型A，实际运行时类型B判断o.s()执行的是哪个函数按照o的声明类型，因为静态函数s没有多态性，
+  函数入口地址在编译时就确定（早期绑定），而编译时所有变量的类型都按声明类型。
+  判断o.m()执行的是哪个函数按照o的实际运行类型，在运行时按照o指向的实际类型B来重新计算函数入口地址（晚期绑定。多态性），因此调用的是B的m。
+
+  因此一旦引用变量o指向了B类型对象（A o = new B()），o.m()调用的永远是B的m，再也无法通过o调用A的m，哪怕
+  强制转换都不行： ((A)o).m();调用的还是B的m这就是前面所说的不能再发现。
+
+- Object中的方法
+
+  java.lang.Object类是所有类的祖先类。如果一个类在声明时没有指定父类，那么这个类的父类是Object类。
+
+  它提供方法如toString、equals、getClass、clone、finalize。前3个为公有，后2个为保护。getClass为final（用于泛型和反射机制，禁止覆盖）。
+
+  equals方法:用于测试两个对象是否相等。<u>Object类的默认实现是比较两个对象引用是否引用同一个对象。</u>
+
+  toString方法：返回代表这个对象的字符串。<u>Object类的默认实现是返回由类名、@和hashCode组成。</u>
+     Circle circle = new Circle();
+     circle.toString();//Circle@15037e5，如果Circle没有覆盖toString
+
+  Object的toString方法提供的信息不是很有用。因此通常子类应该覆盖该方法，提供更有意义的信息
+
+  equals用于判断一个对象同另一个对象的所有成员内容是否相等。覆盖时应考虑：
+  	对基本类型数值成员。直接使用==判断即可。
+  	对引用类型变量成员。则需要对这些变量成员调用equals判断，不能用==。
+
+  覆盖equals函数，最好同时覆盖hashCode()方法，该方法返回对象的hashCode值。
+  	需要对比的时候，首先用hashCode去对比，如果hashCode不一样，则表示这两个对象肯定不相等（也就是不必再用equals()去再对比了）,如果hashCode相同，此时再用equals()比，如果equals()也相同，则表示这两个对象是真的相同了，这样既能大大提高了效率也保证了对比的绝对正确性！
+
+  覆盖equals函数，首先用instanceof检查参数的类型是否和当前对象的类型一样。
+
+  ```java
+  public boolean equals(Object o){
+    if(o instanceof Circle)	//应先检查另一对象o的类型
+      return  radius==((Circle)o).radius;
+    return false;
+  }
+  ```
+
+  要实现一个类的clone方法，首先这个类需要实现Cloneable接口，否则会抛出CloneNotSupportedException异常
+  Cloneable接口其实就是一个标记接口，里面没有定义任何接口方法，只是用来标记一个类是否支持克隆：没有实现该接口的类不能克隆
+  还要公有覆盖clone方法，即Object类里clone方法是保护的，子类覆盖这个方法时应该提升为public
+  方法里应实现深拷贝clone，Object的clone实现是浅拷贝（按成员赋值）。
+  克隆的深度：要克隆的对象可能包含基本类型数值成员或引用类型变量成员，对于基本类型数值成员使用=赋值即可，对于引用类型成员则需要进一步嵌套调用该成员的克隆方法进行赋值。
+
+  ```java
+  //首先必须实现Cloneable接口
+  class A implements Cloneable{
+      public static final int SIZE = 10;
+      private int[] values = new int[SIZE]; //A的values成员是数组
+  
+      public int[] getValues(){
+          return values;
+      }
+      //覆盖clone方法，提升为public，只是调用Object的的clone，
+      //不修改行为
+      @Override
+      public Object clone() throws CloneNotSupportedException {
+          return super.clone();//调用Object的clone。//注意super.clone返回Object在运行时就是A类型
+      }
+  }
+  public class CloneTest {
+      public static void main(String[] args) throws CloneNotSupportedException {
+          A o1 = new A();
+          A o2 = (A)(o1.clone()); //clone返回Object，因此要强制类型转换
+          System.out.println(o1 == o2); //false，说明clone返回的是新的引用
+          System.out.println(o1.getValues() == o2.getValues()); //true 但为浅拷贝克隆
+      }				//因为o1和o2内部values引用指向了内存里同一个数组					//说明A的clone方法里，所调用的super.clone()是浅拷贝
+  }
+  ```
+
+  ```java
+  class A implements Cloneable{
+      public static final int SIZE = 10;
+      private int[] values = new int[SIZE];
+      public int[] getValues(){ return values; }
+      public void setValues(int[] newValues) {
+  	this.values = newValues;
+      }
+      //覆盖equals方法，比较二个A类型对象内容是否一样
+      public boolean equals(Object obj) {
+          if(obj instanceof A){
+              A o = (A)obj;
+              return java.util.Arrays.equals(this.getValues(),o.getValues());
+          }
+          else return false;
+      }
+      //覆盖clone方法，提升为public，重新实现为深拷贝
+      public Object clone() throws CloneNotSupportedException {
+         // A newObj = new A(); //new一个新对象，该方法不好：在有继承关系的情况下，不利于复用父类的clone方法
+  	A newObj = (A)super.clone(); //强烈建议这么做
+  	newObj.values = this.values.clone(); //数组的clone是深拷贝，如果去掉clone，则是浅拷贝
+  	return newObj;
+      }
+  }
+  ```
+
+- 多态性、动态绑定和对象的强制类型转换
+
+  继承关系使一个子类可以继承父类的特征(属性和方法），并附加新特征
+  子类是父类的具体化（沿着继承链从祖先类到后代类，特征越来越具体；反过来，从后代类往祖先类回溯，越来越抽象）
+  每个子类的实例都是父类的实例（子类对象ISA父类），但反过来不成立
+
+  这个特性是多态的重要基础
+
+  ```java
+  	Class Student extends Person{ …}
+  	Person p = new Student();//OK 父类引用可直接指向子类对象
+   Student s = new Person();//error
+  ```
+
+  这个特性是多态的重要基础
+
+  多态：通过引用变量调用实例函数时，根据所引用的实际对象的类型，执行该类型的相应实例方法，从而表现出不同的行为称为多态。通过继承时覆盖父类的实例方法实现多态。多态实现的原理：在运行时根据引用变量指向对象的实际类型，重新计算调用方法的入口地址（晚期绑定）。
+
+  多态条件：父类变量可引用本类和子类对象，子类对象isA父类对象
+  当调用实例方法时，由Java虚拟机动态地决定所调用的方法，称为动态绑定(dynamic binding)或者晚期绑定或者延迟绑定(lazy binding)或者多态。
+  假定对象o是类C1的实例，C1是C2的子类，C2是C3的子类，…，Cn-1是Cn的子类。也就是说，Cn是最一般的类，C1是最具体的类。在Java中，Cn是Object类。如果调用继承链里子类型C1对象o的方法p，Java虚拟机按照C1、C2、…、Cn的顺序依次查找方法p的实现。一旦找到一个实现，将停止查找，并执行找到的第一个实现(覆盖的实例函数)。
+
+  由于父类变量可以引用子类对象，针对父类型设计的任何代码都可以应用于子类对象
+
+  ​	多态性允许方法使用更通用的类作为参数类型。
+  ​	如果方法参数是父类，那么这个参数可以接受任何子类对象作为实参。当调用这对象的方法时，将动态绑定方法的实现。
+
+  父类变量引用子类对象，可视为将子类对象转换为父类（不需强制类型转换）。
+  类型转换(type casting)可以将一个对象的类型转换成继承链中的另一种类型。
+  从子类到父类的转换是合法的，称为隐式转换。
+
+  ```java
+  Person p=new Manager();//将子类对象转换为父类对象
+  ```
+
+  从父类到子类必须显式（强制）转换。
+
+  从父类到子类转换必须显式转换，转换前应进行检查更安全。
+
+  ```java
+     Manager m = null;
+     if(p instanceof Manager) m= (Manager)p; //安全：转换前检查
+  ```
+
+  从父类到子类转换必须显式转换，转换前应进行检查更安全。
+
+  ```java
+     Manager m = null;
+     if(p instanceof Manager) m= (Manager)p; //安全：转换前检查
+   	 Manager m = p; //编译错 ，p是Person父类型，Person不一定是Manager
+     Manager m = (Manager)p;//ok，但转换前没有检查 
+  ```
+
+- instanceof操作符
+
+  可以用instanceof操作符判断一个引用指向的对象是否是一个类的实例。表达式返回boolean值。
+  语法：referenceVariable  instanceof  TypeName
+
+- 重载发生在编译时(Compile time)，编译时编译器根据实参比对重载方法的形参找到最合适的方法。
+  多态发生在运行(Run time)时，运行时JVM根据变量所引用的对象的真正类型来找到最合适的实例方法。
+
+- final可以修饰变量、方法、类
+
+  ​	final修饰变量
+  ​	final成员变量：常量，数据初始化后不能再修改。
+  ​	final局部变量:常量，数据初始化后不能再修改。
+  ​	final修饰方法（实例方法和静态静态）：最终方法，实例方法不能被子类覆盖，静态方法不能被隐藏
+  ​		Object类的getClass( )
+  ​	final类：最终类，不能派生子类。
+  ​		String, StringBuffer
+  ​		Math
+
+### 抽象类和接口
+
+- 抽象类
+
+  子类继承父类后，通常会添加新的属性和方法。因此沿着继承链越往下继承的子类其属性和方法越来越具体。相反，越上层的祖先类其实现越抽象，甚至无法给出具体实现。一个长方形图形有面积，但其祖先类GeometricObject的getArea()方法可能没法给出具体实现，这时可以定义成抽象方法。
+  Java可定义不含方法体的方法，其方法体由子类根据具体情况实现，这样的方法称为抽象方法(abstract method)，包含抽象方法的类必须是抽象类(abstract class)。
+  抽象类和抽象方法的声明必须加上abstract关键字。
+  抽象方法的意义：加给子类的一个约束。例如Circle类和Rectangle类计算面积必须使用父类规定的函数签名。这样可以充分利用多态特性使得代码变得更通用
+
+  ```java
+  abstract class GeometricObject{
+      //属性和方法定义
+  
+      public abstract double getArea();
+      public abstract double getPerimeter();
+  }
+  
+  /*包含抽象方法的类必须是抽象类
+  抽象类和抽象方法必须用abstract关键字修饰
+  没有包含抽象方法的类也可以定义成抽象类*/
+  
+  class Circle extends GeometricObject{
+      //新的属性
+      
+      @Override
+      public double getArea() {
+          //给出具体实现
+      }
+      @Override
+      public double getPerimeter() {
+          //给出具体实现
+      }
+  }
+  ```
+
+  抽象方法：使用abstract定义的方法或者接口中定义的方法（接口中定义的方法自动是抽象的，可以省略abstract）。
+   一个类C如果满足下面的任一条件，则该类包含抽象方法且是抽象类：
+   类C显式地包含一个抽象方法的声明；
+   类C的父类中声明的抽象方法未在类C中实现；
+   类C所实现的接口中有的方法在类C里没有实现
+   只要类C有一个未实现的方法（自己定义的或继承的），就是抽象类
+   但是，一个不包含任何抽象方法的类，也可以定义成抽象类
+   抽象类不能被实例化
+
+  只有实例方法可以声明为抽象方法（Java里所有实例方法自动是虚函数，因此Java里没有virtual关键字）。
+   抽象类不能被实例化，即不能用new关键字创建对象（即new 右边的类型不能是抽象类）。
+   但是抽象类可以作为变量声明类型、方法参数类型、方法返回类型
+   为什么？因为一个抽象类型引用变量可以指向具体子类的对象
+   抽象类可以定义构造函数，并可以被子类调用。
+   抽象类可以定义变量、非抽象方法并被子类使用
+   抽象类的父类可以是具体类：自己引入了抽象方法。例如，具体类Object是所有类的祖先父类。
+
+- 接口
+
+  接口是公共静态常量和公共抽象实例方法的集合。接口是能力、规范、协议的反映。
+   接口不是类：(1)不能定义构造函数；(2)接口之间可以多继承，类可implements多个接口。(3)和抽象类一样，不能new一个接口
+   语法：
+
+  ```java
+  [modifier]  interface interfaceName {
+   		             constant_declaration*   
+  		             abstract_method_declaration* 
+   }
+  ```
+
+   接口中的所有数据字段隐含为public static final
+   接口体中的所有方法隐含为public abstract
+
+  接口用法： 
+
+  可以在能够使用任何其他数据类型的地方使用接口。
+   接口类型属于引用类型，接口类型的变量可以是：
+   空引用(null)
+   引用实现了该接口的类的实例
+   接口需要具体的类去实现。类实现接口的语法
+
+   除非类为abstract,所有接口的成员方法必须被实现
+   一个类只能继承一个父类，但可以实现多个接口，多个接口以“，”分开。
+
+  ```java
+  [modifier] class className [extends superclass][implements interfaceNameList ] {
+  	 member_declaration*
+  }
+  ```
+
+   除非类为abstract,所有接口的成员方法必须被实现
+   一个类只能继承一个父类，但可以实现多个接口，多个接口以“，”分开。
+
+  接口不是类（Java支持单继承类），一个接口可以继承多个接口。
+   语法
+
+   如果接口声明中提供了extends子句，那么该接口就继承了父接口的方法和常量。被继承的接口称为声明接口的直接父接口。
+   任何实现该接口的类，必须实现该接口继承的其他接口。
+
+  ```java
+  	[modifier] interface interfaceName [extends interfaceNameList] {
+  		declaration* 
+  	}
+  ```
+
+   如果接口声明中提供了extends子句，那么该接口就继承了父接口的方法和常量。被继承的接口称为声明接口的直接父接口。
+   任何实现该接口的类，必须实现该接口继承的其他接口。
+
+  有时需要比较二个对象，但不同类型对象的比较具有不同的含义，因此Java定义了Comparable接口。
+   因此，任何需要比较对象的类，都要实现该接口。
+   Cloneable、Runnable、Comparable等接口均在包java.lang中：
+
+   CompareTo判断this对象相对于给定对象o的顺序，当this对象小于、等于或大于给定对象o时，分别返回负数、0或正数
+
+  ```java
+  	package java.lang;
+   public interface Comparable{
+  		 public int compareTo(Object o);
+  	}
+  ```
+
+   CompareTo判断this对象相对于给定对象o的顺序，当this对象小于、等于或大于给定对象o时，分别返回负数、0或正数
+
+  有了Comparable接口，我们可以实现很通用的类来比较对象，例如实现一个从两个对象中找出最大者的方法。
+
+  ```java
+  public class Max{
+      public static Comparable findMax (Comparable o1, Comparable o2){
+          if(o1.CompareTo(o2) > 0 )
+              return o1;
+          else
+              return o2;
+      }
+  }
+  ```
+
+   注意findMax方法的参数类型和返回类型都是Comparable（只要是实现了Comparable接口的对象都可以传进来。 Comparable接口描述了可以比较大小的能力，一个类实现了这个接口，意味着这个类的对象直接可以比较大小）
+   Max.findMax与Comparable接口的具体实现子类无关。只要是实现了Comparable接口的具体类的二个对象（注意是同一个具体类的二个对象）传进来， Max.findMax都能工作。这就是接口的好处。（程序存在的问题：如果是2个实现了Comparable接口的不同具体类对象传进来怎么办？最好通过泛型解决）
+   另外要注意的是：o1.CompareTo(o2)调用是动态绑定（多态）（调用具体子类对象的CompareTo方法）
+
+  Java定义了Cloneable接口，任何想克隆的类必须实现该接口，同时覆盖从Object类继承的clone方法，并将访问属性改为public
+   Cloneable接口为空接口(未定义任何函数)，其定义为
+  	      package java.lang;
+          public interface Cloneable { 	}
+   空接口称为标记接口(markup interface)
+   空接口有什么作用？唯一目的允许你用instanceof检查对象的类型：   
+          if(obj instanceof Cloneable)…
+
+|              |                           **接口**                           |                          **抽象类**                          |
+| :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| **多重继承** |                   一个接口可以继承多个接口                   |              一个类只能继承（extends)一个抽象类              |
+|   **方法**   |                     接口不能提供任何代码                     |              抽象类的非抽象函数可以提供完整代码              |
+| **数据字段** |   只包含public static final常量，常量必须在声明时初始化。    |        可以包含实例变量和静态变量以及实例和静态常量。        |
+|   **含义**   | 接口通常用于描述一个类的外围能力，而不是核心特征。类与接口之间的是-able或者can do的关系，有instanceof关系（实现了接口的具体类对象也是接口类型的实例）。 | 抽象类定义了它的后代的核心特征。例如Person类包含了Student类的核心特征。子类与抽象类之间是is-a的关系，也有instanceof关系（子类对象也是父类实例）。 |
+|  **简洁性**  | 接口中的常量都被假定为public static final，可以省略。不能调用任何方法修改这些常量的初始值。接口中的方法被假定为public abstract。 | 可以在抽象类中放置共享代码。可以使用方法来修改实例和静态变量的初始值，但不能修改实例和静态常量的初始值。必须用abstract显式声明方法为抽象方法。 |
+| **添加功能** | 如果为接口添加一个新的方法，则必须查找所有实现该接口的类，并为他们逐一提供该方法的实现，即使新方法没有被调用。 | 如果为抽象类提供一个新方法，可以选择提供一个缺省的实现，那么所有已存在的代码不需要修改就可以继续工作，因为新方法没有被调用。 |
+
+- 基本数据类型包装类的作用
+  为基本数据类型提供有用的方法和常量值
+  用于只能处理对象引用的地方（比如Java所有的集合类里只能放对象）
+  包装类对象的值不变（内部valule是final的），只能读取。
+
+  构造函数
+   以一个对应的基本数据类型为参数
+   以字符串为参数(除了Character)
+   如Double类的构造函数如下：
+  	  public Double (double value);
+  	  public Double (String value);
+   例如
+  	  Double doubleObject = new Double(5.0);
+  	  Double doubleObject = new Double("5.0");
+   包装类没有无参构造方法
+
+  每一个数值包装类都有相应类型常量MAX_VALUE和MIN_VALUE。
+   MAX_VALUE对应本数据类型的最大值。
+   对Byte ,Short ,Integer和Long， MIN_VALUE对应最小值
+   对Float和Double， MIN_VALUE对应最小正值
+   上述常量用于排序算法时很有用。
+   直接用包装类名访问其常量值：
+  	System.out.println(“The maximum integer is”+ Integer.MAX_VALUE); //MAX_VALUE是int类型
+  	System.out.println(“The minimum positive float is”+ Float.MIN_VALUE); //MIN_VALUE是float类型
+
+  JDK1.5开始允许基本类型和包装类之间的自动转换。
+   将基本类型的值转换为包装类对象，称为装箱(boxing)
+   将包装类对象转换为基本类型的值，称为开箱(unboxing)
+
+  Integer intObject = 2; //装箱
+  等价于
+  Integer intObject = new Integer(2); 
+
+  Integer intObject1 = 2, intObject2 = 3 ;
+  System.out.println(intObject1 + intObject2 );//开箱
+  int j = intObject ; //开箱
+
+  
+
+### 异常处理和文本I/O
+
+- 异常：程序运行过程中发生的非正常时间，其发生会影响程序的正常执行
+
+  当程序产生异常是，产生异常对象交给程序处理，称为抛出一个异常
+
+- 异常的原因：数组越界、违反语意、资源超出限制、访问空引用等……
+
+  显式抛出异常：
+
+  ```java
+  throw new Exception("异常描述信息");
+  ```
+
+- 使用try/catch语句环绕可能会抛出异常的代码段。
+
+- Java异常必须继承Throwable的直接或间接子嘞。用户通过继承自定义异常
+
+  Java的异常分为两大类：从Exception派生的是程序级错误，程序本身可以处理；从Error派生的是系统错误（如JVM内存不够），程序可不用处理也处理不了。
+
+  Exception的子类除了RuntimeException分支之外都是必检异常，要么用catch子句捕获并处理，要么在所在函数上加上异常声明
+
+- 发生异常时：
+
+  运行时系统按与方法调用次序相反的次序搜索调用堆栈，寻找一个包含可处理异常的代码块的方法，这个代码块即异常处理器，即try/catch子句。
+
+  如果被抛出的异常与异常处理器可以处理的类型匹配，则捕获异常；
+
+  如果彻底搜索调用堆栈中所有方法都没有合适的异常处理器，则程序终止。
+
+
+
+### 泛型
+
+- 泛型（Generic）：指可以把类型参数化，这个能力使得我们可以定义带类型参数的泛型类、泛型接口、泛型方法，随后编译器会用唯一的具体类型替换它；
+
+  主要优点：是在编译时而不是运行时检测出错误。泛型类或方法允许用户指定可以和这些类或方法一起工作的对象类型。如果试图使用一个不相容的对象，编译器就会检测出这个错误。
+
+  实现原理：Java的泛型通过擦除法实现，和C++的模板生成多个实例类不同。编译时会用类型实参代替类型形参进行严格的语法检查，然后擦除类型参数、生成所有实例类型共享的唯一原始类型。这样使得泛型代码能兼容老的使用原始类型的遗留代码。
+
+- 泛型类（Generic Class）是带形式化类型参数的类。形式化类型参数是一个逗号分隔的变量名列表，位于类声明中类名后面的尖括号<>中。下面的代码声明一个泛型类Wrapper，它接受一个形式化类型参数T：
+
+  ```java
+  public class Wrapper<T>  {
+  
+  }
+  ```
+
+
+  T是一个类型变量，它可以是Java中的任何引用类型，例如String，Integer，Double等。当把一个具体的类型实参传递给类型形参T时，就得到了一系列的参数化类型(Parameterized Types)，如Wrapper<String>，Wrapper<Integer> ，这些参数化类型是泛型类Wrapper<T>的实例类型,参数化类型(Parameterized Types)是在JLS里面使用的术语，为了方便描述我们称为实例类型。
+
+  ```java
+  Wrapper<String>  stringWrapper = new Wrapper<String>();
+  Wrapper<Circle>  circleWrapper = new Wrapper<Circle>();
+  ```
+
+- RTTI（ Run-Time Type Identification ）：运行时类型识别。
+
+  通过运行时类型信息，程序在运行时能够检查父类引用所指的对象的实际派生类型。
+
+- Class和Class对象
+
+  要理解RTTI在Java中的工作原理，就必须知道类型信息在运行时是如何表示的。
+  类型信息是通过Class类（类名为Class的类）的对象表示的，Java利用Class对象来执行RTTI。
+  每个类都有一个对应的Class对象，每当编写并编译了一个类，就会产生一个Class对象，这个对象当JVM加载这个类时就产生了。
+
+  获取Class对象：
+
+  1. Class.forName方法，是Class类的静态方法:
+
+  ```java
+  class Person{
+  }
+  
+  class Employee extends Person{
+  }
+  
+  class Manager extends Employee{
+  }
+  
+  public class ClassDemo {
+      public static void main(String[] args){
+          try {
+              Class clz = Class.forName(“ch13.Manager”); //参数是类完全限定名字符串
+              System.out.println(clz.getName()); //产生完全限定名ch13.Manager
+              System.out.println(clz.getSimpleName()); //产生简单名Manager
+  
+              Class superClz = clz.getSuperclass(); //获得直接父类型信息
+              System.out.println(superClz.getName()); //产生完全限定名ch13.Employee
+              System.out.println(superClz.getSimpleName()); //产生简单名Employee
+          } catch (ClassNotFoundException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+  ```
+
+  2. 利用类字面常量：类名.class，得到类对应的Class对象
+
+  某个类名.class是Class类型的字面量，正如int类型的字面量有1，2，3，Class类型的字面量有Person.class,  Employee.class, Manager.class，它们都是Class类型的实例
+
+  类字面常量不仅可以用于类，也可用于数组(int[].class)，接口，基本类型，如int.class
+  相比Class.forName方法，这种方法更安全，在编译时就会被检查，因此不需要放在Try/Catch块里
+  Class.forName会引起类的静态初始化块的执行，T.class不会引起类的静态初始化块的执行
+
+  ```java
+  public class ClassDemo {
+      public static void main(String[] args){
+          Class clz = Manager.class;  // Manager.class得到Manager的Class对象.赋给引用clz
+          System.out.println(clz.getName()); //产生完全限定名ch13.Manager
+          System.out.println(clz.getSimpleName()); //产生简单名Manager   
+      }
+  }
+  ```
+
+  3. 通过对象:如果获得一个对象的引用o，通过o.getClass()方法获得这个对象的类型的Class对象
+
+  ```java
+  public class ClassDemo {
+      public static void main(String[] args){
+          Object o = new Manager();
+          Class clz = o.getClass();//注意getClass返回的是运行时类型
+          System.out.println(clz.getName()); //产生完全限定名ch13.Manager
+          System.out.println(clz.getSimpleName()); //产生简单名Manager
+      }
+  }
+  ```
+
+- 泛化的Class引用
+
+  ```java
+  //非泛化的Class引用（即不带类型参数的Class引用）可指向任何类型的Class对象，但这样不安全
+  Class clz ;     //注意警告， Class is a raw type. References to generic type Class<T> should be parameterized
+  clz= Manager.class; //OK
+  clz = int.class; //OK
+  
+  //有时我们需要限定Class引用能指向的类型：加上<类型参数>。这样可以可以强制编译器进行额外的类型检查
+  Class<Person> genericClz;    //泛化Class引用，Class<Person>只能指向Person的类型信息， <Person>为类型参数
+  genericClz = Person.class;  //OK
+  //genericClz = Manager.class; //Error，不能指向非Person类型信息。注意对于类型参数，编译器检测时不看继承关系。
+  
+  //能否声明一个可用指向Person及其子类的Class对象的引用？为了放松泛化的限制，用通配符?表示任何类型，并且与extends结合，创建一个范围
+  Class<? extends Person> clz2;  //引用clz2可以指向Person及其子类的类型信息
+  clz2 = Person.class;
+  clz2 = Employee.class;
+  clz2 = Manager.class;
+  //注意Class<?> 与Class效果一样，但本质不同，一个用了泛型，一个没有用泛型。 Class<?> 等价于Class<? extends Object > 
+  ```
+
+- 反射（Reflection）
+
+  完成这样的功能：输入一个类的完全限定名字符串（如“java.lang.String”），创建相应的对象。
+
+  利用Class对象我们可以在运行时动态地创建对象，调用对象的方法。clz指向一个类的Class对象时，通过 clz可以得到这个类的所有构造函数对象，方法对象。
+
+  一个构造函数对象类型是： java.lang.reflect.Constructor，一个Constructor对象代表了类的一个构造函数
+
+  一个方法对象类型是：java.lang.reflect.Method，一个Method对象代表了类的一个方法
+
+  通过反射机制创建对象/调用方法：
+
+  首先得到参数类型为String的构造函数对象，然后调用它的newInstance方法调用构造函数，参数为“John”。等价于：
+  Student s2 = new Student(“John”)；
+
+  clz.getMethod(“setName”, String.class)：得到方法名为setName,参数为String的方法对象m，类型是Method。
+  然后通过m.invoke去调用该方法，第一个参数为对象，第二个参数是传递给被调方法的实参。这二条语句等价于s1.setName(“Marry)。
+
+  ```java
+  Class  clz = Class.forName("ch13.Student");
+  
+  //获取所有的Constructor对象
+  Constructor[] ctors = clz.getConstructors();
+  
+  //获取所有的Method
+  Method[] methods = clz.getMethods(); //会显示所有方法，包括继承的
+  Method[] methods = clz.getDeclaredMethods(); //本类定义的方法
+  
+  //实例化对象
+  //1：如有缺省构造函数，调用Class对象的newInstance方法
+  Student s1 = (Student)clz.newInstance();
+  //2. 调用带参数的构造函数
+  Student s2 = (Student)clz.getConstructor(String.class).newInstance("John");
+  //invoke method
+  Method m = clz.getMethod("setName", String.class);
+  m.invoke(s1, "Marry"); //调用s1对象的setName方法，实参"Marry"
+  ```
+
+- JDK1.5开始，Java允许定义泛型类、泛型接口和泛型方法，API中的一些接口和类使用泛型进行了修改。如java.lang.comparable
+
+  Comparable接口中的compareTo变成Comparable\<T>中的compareTo\<T>，这样原来由于不同类直接比较而产生的运行时错误现在会在编译时报错。同样地，ArrayList也变成ArrayList\<E>。
+
+  因此，有了泛型机制，程序员的责任（保证类型一致性，例如用instanceOf检查也是程序员的责任）变成了编译器的责任。这就是引入泛型机制的优点。
+
+  注意泛型类型的参数类型必须是引用类型，如不能是int而应该是Integer。
+
+- 用泛型定义栈类
+
+  ```java
+  import java.util.ArrayList;
+  public class GenericStack<E> {
+           private ArrayList<E> list = new ArrayList<E>();
+           public boolean isEmpty() {
+  				  	 return list.isEmpty();
+           }
+           public int getSize() {
+  					   return list.size();
+           }
+           public E peek() {
+  						 return list.get(getSize() - 1);//取值不出栈
+           }
+           public E pop() {
+  						 E o = list.get(getSize() - 1) ;
+  						 list.remove(getSize() - 1);
+  						 return o;
+           }
+           public void push(E o) {
+  						 list.add(o);
+         	} 
+         	public String toString() {
+  						 return "stack: " + list.toString();
+         	}
+  }
+  ```
+
+  GenericStack\<E>构造函数形式是擦除参数类型后的GenericStack( ),不是GenericStack<>();
+
+- 泛型类或者泛型接口的一个实例类型，可以作为其它类的父类或者类要实现的接口
+  如Java API中，Java.lang.String类实现Comparable接口的写法是: 
+
+  类似地，如果我们要定义一个实现了Comparable接口的Circle类，就得这么写
+  public  class Circle implements Comparable\<Circle>
+
+  ```java
+  public  class String implements Comparable<String>
+     // Comparable<String>是泛型接口Comparable<T>的实例类型 (接口），
+     //Comparable<String>是一个这样接口类型：可以比较二个String对象的大小
+     //而String实现了这个接口Comparable<String>
+  ```
+
+  类似地，如果我们要定义一个实现了Comparable接口的Circle类，就得这么写
+  public  class Circle implements Comparable\<Circle>
+  
+- 泛型方法
+
+  除了可以定义泛型接口和泛型类，也可以定义泛型方法。下面的例子在一个非泛型类里定义了泛型方法
+
+  ```java
+  public class GenericMethodDemo {
+      public static void main(String[] args) {
+          Integer[] integers = {1,2,3,4,5};
+          String[] strings = {"Londen","Paris","New York","Austin"};		  
+          GenericMethodDemo.<Integer>print(integers);			    
+          GenericMethodDemo.<String>print(strings);
+      }
+    /*调用泛型方法，将实际类型放于<>之中方法名之前；
+  也可以不显式指定实际类型，而直接给实参调用，如
+  print(integers); print(strings);由编译器自动发现实际类型*/
+      public  static <E> void print(E[] list){
+          for(int i = 0 ; i <list.length; i++){
+              System.out.print(list[i]+" ");
+              System.out.println();
+          }
+      }
+    /*声明泛型方法，将类型参数<E>置于返回类型之前
+  方法的类型参数可以作为形参类型，方法返回类型，也可以用在方法体内其他类型可以用的地方*/
+  }
+  ```
+
+- 在定义泛型类、泛型接口、泛型方法时，可以将类型参数指定为另外一种类型（或泛型）的子类型（用extends），这样的类型参数称之为受限的（bounded）
+  想实现泛型方法比较二个几何对象的面积是否相等，几何对象类型很多，都从GeometricObject派生
+
+  ```java
+  public class BoundedTypeDemo{
+          public  static <E> boolean equalArea(E object1, E object2 )
+          {
+          	return object1.getArea() == object2.getArea( );
+          }
+  }
+  ```
+
+  没有指定具体类型实参的泛型类和泛型接口称为原始类型（raw type）。如：
+  GenericStack stack = new GenericStack( ); 等价于
+  GenericStatck<Object> stack = new GenericStack<Object>( );
+  这种不带类型参数的泛型类或泛型接口称为原始类型。使用原始类型可以向后兼容Java的早期版本。如Comparable类型. 
+  尽量不要用
+  
+  ```java
+  //从JDK1.5开始，Comparable就是泛型接口Comparable<T>的原始类型(raw type)
+  public class Max {
+      public static Comparable findMax(Comparable o1, Comparable o2){
+          return (o1.compareTo(o2) > 0)?o1:o2;
+      }
+  }
+  ```
+  
+  上例中，Comparable o1和Comparable o2都是原始类型声明，但是，原始类型是不安全的。如：Max.findMax(“Welcome”,123）；编译通过，但会引起运行时错误。
+  安全的办法是使用泛型，现在将findMax方法改成泛型方法。
+  
+  ```java
+  public class Max {
+      public static <E extends Comparable<E>> E findMax(E o1, E o2){
+          return (o1.compareTo(o2) > 0)?o1:o2;
+      }
+  }
+  //E extends Comparable<E>>指定类型E必须实现Comparable接口，而且接口比较对象类型必须是E
+  //注意：在指定受限的类型参数时，不管是继承父类还是实现接口，都用extends
+  public class Circle implements Comparable<Circle> {…}
+  
+  Max.findMax(new Circle(),new Circle(10.0);
+  //编译上面这条语句时，编译器会自动发现findMax的类型实参为Circle，用Circle替换E
+  
+  ```
+  
+  这个时候语句Max.findMax(“Welcome”,123）；会引起编译时错误，因为findMax方法要求两个参数类型必须一致，且E必须实现Comparable\<E> 接口
+  
+- 通配泛型
+
+  三种形式：
+  ？ , 非受限通配，等价于 ? extends Object，注意
+  GenericStack<?>不是原始类型， GenericStack是原始类型
+  ？ extends T, 受限通配,表示T或者T的子类，上界通配符，T定义了类型上限
+  ? super T，下限通配，表示T或者T的父类型，下界通配符，T定义了类型下限
+
+  数组的协变性（Covariant）
+  数组的协变性是指：如果类A是类B的父类，那么A[]就是B[]的父类。
+
+  ```java
+  class Fruit{}
+  class Apple extends Fruit{}
+  class Jonathan extends Apple{} //一种苹果
+  class Orange extends Fruit{}
+  
+  //由于数组的协变性，可以把Apple[]类型的引用赋值给Friut[]类型的引用
+  Fruit[] fruits = new Apple[10]; 		
+  fruits[0] = new Apple();  
+  fruits[1] = new Jonathan(); // Jonathan是Apple的子类
+  
+  try{
+      //下面语句fruits的声明类型是Fruit因此编译通过，但运行时将Fruit转型为Apple错误
+      //数组是在运行时才去判断数组元素的类型约束；
+      //而泛型正好相反，在运行时，泛型的类型信息是会被擦除的，编译的时候去检查类型约束
+      fruits[2] = new Fruit();//运行时抛出异常 java.lang.ArrayStoreException，这是数组协变性导致的问题
+  }catch(Exception e){
+      System.out.println(e);
+  }
+  ```
+
+  为了解决数组协变性导致的问题，Java编译器规定泛型容器（任何泛型类）没有协变性
+
+  ```java
+  ArrayList<Fruit> list = new ArrayList<Apple>(); //编译错误
+  //Type mismatch: cannot convert from ArrayList<Apple> to ArrayList<Fruit>
+  ```
+
+  因为：我们在谈论容器的类型，而不是容器持有对象的类型
+  A是B父类型，但泛型类(比如容器）ArrayList\<A>不是ArrayList\<B>的父类型
+  因此，上面语句报错。
+  为什么数组有协变性而泛型没有协变性：
+
+  ​	数组具有协变性是因此在运行时才去判断数组元素的类型约束，这将导致有时发生运行时错误，抛出异常java.lang.ArrayStoreException。这个功能在Java中是一个公认的“瑕疵”
+
+  ​	泛型没有协变性：泛型设计者认为与其在运行失败，不如在编译时就失败（禁止泛型的协变性就是为了杜绝数组协变性带来的问题，即如果泛型有协变性，面临可协变的数组一样的问题）——静态类型语言（Java,C++）的全部意义在于代码运行前找出错误。Python, JavaScript之类的语言是动态类型语言。
+
+  但有时希望像数组一样，一个父类型容器引用变量指向子类型容器，这时要使用通配符
+
+  1. 采用上界通配泛型 ？ extends
+
+  ```java
+  ArrayList<? extends Fruit> list = new  ArrayList<Apple>(); //左边类型是右边类型的父类型
+  ```
+
+  上面语句编译通过，但是这样的list不能加入任何东西。下面语句都会编译出错
+
+  ```java
+  list.add(new Apple()); list.add(new Fruit()); //编译都报错
+  //可加入null
+  list.add(null);
+  
+  //但是从这个list取对象没有问题，编译时都解释成Fruit，运行时可以是具体的类型如Apple（有多态性）
+  Fruit f = list.get(0);
+  ```
+
+  因为ArrayList<? extends Fruit>意味着该list集合中存放的都是Fruit的子类型（包括Fruit自身），Fruit的子类型可能有很多，但list只能存放其中的某一种类型。编译器只能知道元素类型的上限是Fruit，而无法知道list引用会指向什么具体的ArrayList，可以是ArrayList\<Apple>,也可能是ArrayList\<Jonathan>,为了安全，Java泛型只能将其设计成不能添加元素。
+  虽然不能添加元素，但从里面获取元素的类型都是Fruit类型（编译时）
+  因此带<? extends>类型通配符的泛型类不能往里存内容（不能set），只能读取（只能get）
+  那这样声明的容器类型有什么意义？它的意义是作为一个只读（只从里面取对象）的容器
+
+  假设已经实例化好了另外一个容器，对象已经放入其中，这时用ArrayList<? extends Fruit> list 指向这个另外的容器，那么我们可以通过list取出容器的所有对象而没有任何问题
+
+  ```java
+  ArrayList<Apple> apples = new ArrayList<Apple>();
+  //调用apples.add方法添加很多Apple及其子类对象
+  
+  ArrayList<? extends Fruit> list = apples; //现在ArrayList<? extends Fruit> 类型的引用指向apples
+  for（int i = 0; i < list.size(); i++）{
+      Fruit f = list.get(i)；  //运行时从容器里取出的都是Apple及其子类对象，赋值给Fruit引用没问题
+  }
+  ```
+
+  这个例子还是比较极端（纯粹是语法功能演示），实际更有意义的是作为方法参数：该方法接受一个放好对象的容器，然后在方法里只是逐个取出元素进行处理
+
+  ```java
+  public static void handle(ArrayList<? extends Fruit> list){ //注意方法里只能从list get元素
+  	for(int i = 0; i < list.size(); i++){
+  		Fruit o = list.get(i); //可以确定list里面对象一定是Fruit或子类类型
+          	//处理对象o，注意这时调用o的实例方法时具有多态性
+      }
+  }
+  
+  ArrayList<Apple> appleList = new ArrayList<>(); //等价于new ArrayList<Apple>(); 
+  appleList.add(new Apple());//ArrayList<Apple>是具体类型，编译器很清楚地知道类型参数是Apple这时可以add
+  //由于形参类型ArrayList<? extends Fruit>是实参类型ArrayList<Apple>的父类型，因此实参可以传给形参
+  handle(appleList);
+  ```
+
+  2. 采用下界通配泛型 ？ super
+
+  ```java
+  //采用下界通配符 ？super T 的泛型类引用，可以指向所有以T及其父类型为类型参数的实例类型
+  ArrayList<? super Fruit> list = new ArrayList<Fruit>(); //这时new后边的Fruit可以省略
+  ArrayList<? super Fruit> list = new ArrayList<Object>(); //允许，Object是Fruit父类
+  ArrayList<? super Fruit> list = new ArrayList<Apple>(); //但是不能指向Fruit子类的容器
+  ```
+
+  可以向list里面添加T及T的子类对象
+
+  ```java
+  list.add(new Fruit()); 	//OK
+  list.add(new Apple()); 	//OK
+  list.add(new Jonathan()); 	//OK
+  list.add(new Orange())；	//OK	
+  //list.add(new Object()); //添加Fruit父类则编译器禁止，报错
+  ```
+
+  但是从list里get数据只能被编译器解释成Object
+
+  ```java
+  Object o1 = list.get(0); //OK
+  Fruit o2 = list.get(0);  //报错，Object不能赋给Fruit，需要强制类型转换，
+  ```
+
+  因此这种泛型类和采用？extends的泛型类正好相反：只能存数据，获取数据至少部分失效（编译器解释成Object）
+
+- ？extends 和？ super的理解
+
+  ```java
+  //现在看看通配泛型 ？ extends，注意右边的new ArrayList的类型参数必须是Fruit的子类型
+  //? extends Fruit指定了类型上限，因此下面的都成立：
+  ArrayList<? extends Fruit> list1 = new ArrayList<Fruit>(); //=号右边，如果是Fruit，可以不写，等价于new ArrayList<>();
+  ArrayList<? extends Fruit> list2 = new ArrayList<Apple>();  //=号右边，如果是Fruit的子类，则必须写
+  ArrayList<? extends Fruit> list3 = new ArrayList<Jonathan>(); //=号右边，如果是Fruit的子类，则必须写
+  ArrayList<? extends Fruit> list4 = new ArrayList<Orange>();  //=号右边，如果是Fruit的子类，则必须写
+  
+  /*
+  ArrayList<? extends Fruit> list可指向ArrayList<Fruit>|ArrayList<Apple>|ArrayList<Jonathan>| ArrayList<Orange>|…
+  一个ArrayList<Fruit>容器可以加入Fruit、Apple、Jonathan、Orange，
+  一个ArrayList<Apple>容器可以加入Apple、Jonathan，
+  一个ArrayList<Orange>容器可以加入Orange，
+  假如当ArrayList<? extends Fruit> list为方法形参时，如果方法内部调list.add，
+  由于编译时，编译器无法知道ArrayList<? extends Fruit>类型的引用变量会指向哪一个具体容器类型，编译器无法知道该怎么处理add。
+  例如当add的对象类型是Orange，如果list指向ArrayList<Apple>，加不进去。但如果list指向为ArrayList<Orange>，就可以加进去。
+  为了安全，编译器干脆禁止ArrayList<? extends Fruit>类型的list添加元素。
+  但从list里get元素，都解释成Fruit类型
+  */
+  ```
+
+  ```java
+  //? super Fruit指定了类型下限，因此下面二行都成立
+  ArrayList<? super Fruit> list1 = new ArrayList<Fruit>(); 	//=号右边，这时Fruit可以省略，等价于new ArrayList<>();
+  ArrayList<? super Fruit> list2 = new ArrayList<Object>(); 	//允许。=号右边，如果是Fruit的父类，必须写出类型
+  //ArrayList<? super Fruit> list3 = new ArrayList<Apple>(); 	//但是不能指向Fruit子类的容器
+  
+  /*
+  因此ArrayList<? super Fruit> list引用可以指向ArrayList<Fruit>|Fruit父类型的容器如ArrayList<Object>。
+  当ArrayList<? super Fruit> list为方法形参时,编译器知道list指向的具体容器的类型参数至少是Fruit。当向list里add对象o时，分析几种可能的情况：
+  1 o是Fruit及其子类类型，这里面又分二种情况
+      1.1 ArrayList<? super Fruit> list实际指向ArrayList<Fruit>，可以加入
+      1.2 ArrayList<? super Fruit> list实际指向ArrayList<Object>,可以加入
+  2 o是Fruit的父类型如Object，这里面又分二种情况
+      2.1 ArrayList<? super Fruit> list实际指向ArrayList<Fruit>，这时编译器不允许加入，Object不能转型为Fruit
+      2.2 ArrayList<? super Fruit> list实际指向ArrayList<Object>，可以加入
+  综合以上四种情况，可以看到，只要对象o的类型是Fruit及其子类型，这时将对象o加入list一定是安全的（1.1, 1.2）；
+  如果对象是Fruit父类型，则不允许加入最安全（因为可能出现2.1的情况)。由于? super Fruit规定了list元素类型的下限，因此取元素时编译器只能全部解释成Object
+  */
+  
+  list1.add(new Fruit()); list1.add(new Apple()); list1.add(new Jonathan());//只要加入Fruit及其子类对象都OK
+  //list1.add(new Object()); //添加Fruit父类则编译器禁止，报错
+  
+  取对象时都必须解释成Object类型。因此我们说带<? super>通配符的泛型类的get方法至少是部分失效
+  Object o1 = list.get(0);
+  //Fruit o2 = list.get(0);  //报错，Object不能赋给Fruit，需要强制类型转换，但是引入泛型就是想去掉强制类型转换
+  ```
+
+  ![image-20210416150804613](JAVA学习笔记/image-20210416150804613.png)
+
+  ![image-20210416150739705](JAVA学习笔记/image-20210416150739705.png)
+
+- 泛型擦除和对泛型的限制
+
+  泛型是用类型擦除（type erasure）方法实现的。泛型的作用就是使得编译器在编译时通过类型参数来检测代码的类型匹配性。当编译通过，意味着代码里的类型都是匹配的。因此，所有的类型参数使命完成而全部被擦除。因此，泛型信息(类型参数)在运行时是不可用的，这种方法使得泛型代码向后兼容使用原始代码的遗留代码。
+
+  泛型存在于编译时，当编译器认为泛型类型是安全的，就会将其转化为原始类型。这时(a)所示的源代码编译后变成(b)所示的代码。注意在(b)里，由于list.get(0)返回的对象运行时类型一定是String，因此强制类型转换一定是安全的。
+
+  当编译泛型类、接口和方法时，会用Object代替非受限类型参数E。\<E extends Object>
+
+  如果一个泛型的参数类型是受限的，编译器会用该受限类型来替换它。
+
+  泛型类会擦除类型参数，所有泛型的实例类型共享擦除后形成的原始类型如ArrayList
+  泛型类所有实例类型在运行时共享原始类型，如：
+  ArrayList\<String> list1 = new ArrayList<>( );
+  ArrayList\<Integer> list2= new ArrayList<>( );
+  在运行时只有一个擦除参数类型后的原始ArrayList类被加载到JVM中
+  所以， list1 instanceOf ArrayList\<String>是错误的，可用：
+  list1 instanceOf ArrayList
+  list2 instanceOf ArrayList
+  instanceOf是根据运行时类型进行检查
+
+  使用泛型类型的限制
+  不能使用new E( );  //只能想办法得到E的类型实参的Class信息，再newInstance(…)
+  不能用泛型的类型参数创建实例，如： E object = new E( ); //错误
+  不能使用new E[ ]
+  不能用泛型的类型参数创建数组，如： E[ ] element = new E[cpacity]; //错误
+  new是运行是发生的，因此new 后面一定不能出现类型形参E，运行时类型参数早没了
+  强制类型转换可以用类型形参E，通过类型转换实现无法确保运行时类型转换是否成功
+  E[ ] element = (E[ ])new Object[cpacity];    //编译可通过(所谓编译通过就是指编译时uncheck，至于运行时是否出错，那是程序员自己的责任
+
+  ```java
+  public class GenericOneDimensionArrayUncheck<T> {//实现一维数组的泛型包装类。不可能实现泛型数组
+      private T[] elements;  //T[]类型数组存放元素
+      public GenericOneDimensionArrayUncheck(int size){
+          //new Object[]强制类型转换。强制类型转换就是uncheck，就是强烈要求编译器把=右边的类型解释成T[]
+          elements = (T[])new Object[size]; //注意：在运行时，elements引用变量指向的是Object[]
+      }
+      //这里value的类型是T，这点非常重要，保证了放进去的元素类型必须是T及子类型。否则编译报错
+      public void put(T value,int index){ elements[index] = value; }
+      public T get(int index){ return elements[index]; }//elements声明类型就是T[]，因此类型一致
+      public T[] getElements() {return elements;} //这个方法非常危险，编译没问题
+      public static void main(String[] args){
+          GenericOneDimensionArrayUncheck<String> strArray = new 
+  					GenericOneDimensionArrayUncheck<>(10);
+          strArray.put("Hello",0);
+  //        strArray.put(new Fruit(),0);  //不是String对象放不进去
+          String s = strArray.get(0);  //strArray.get(0)返回对象的运行时类型一定是String，由put保证的
+          //但是下面的语句抛出运行时异常：java.lang.ClassCastException
+          //因为运行时，elements引用变量指向的是Object[]，无法转成String[]
+          String[] a = strArray.getElements(); //返回内部数组，但为String[]类型
+      }
+  }
+  //这个泛型数组实现的版本去掉getElements方法后，还是可用的，通过公有的put、get方法存取元素即可。
+  ```
+
+  ```java
+  public class GenericOneDimensionArray<T> {
+      private T[] elements = null;  //T[]类型
+  
+      public GenericOneDimensionArray(Class<? extends T> clz,int size){
+          elements = (T[])Array.newInstance(clz,size);
+      }
+  
+      //get, put等其他方法省略
+  
+      public T[] getElements(){ return elements; }
+  
+      public static void main(String[] args){
+          GenericOneDimensionArray<String> stringArray = 
+                  new GenericOneDimensionArray(String.class,10);
+          String[] a = stringArray.getElements();  //这里不会抛出运行时异常了
+  //        a[0] = new Fruit(); //不是String类型的对象，编译报错
+          a[1] = "Hello";
+      }
+  }
+  //这个泛型数组实现的版本比前一个要好多了，但构造函数要多传一个Class对象，指明数组元素类型信息。举这个例子还想说明反射机制的重要性。
+  ```
+
+  使用泛型类型的限制：不能new泛型数组（数组元素是泛型），但可以声明
+  不能使用new A\<E>[ ]的数组形式，因为E已经被擦除
+  ArrayList\<String>[ ] list = new ArrayList\<String>[10]；//错误
+  E已经被擦除，只能用泛型的原始类型初始化数组, 必须改为new ArrayList[10]
+  ArrayList\<String> [ ] list = new ArrayList[10]；
+  为什么这里不需要强制类型转换：参数化类型与原始类型的兼容性
+  参数化类型对象可以被赋值为原始类型的对象，原始类型对象也可以被赋值为参数化类型对象
+  	ArrayList a1 = new ArrayList(); //原始类型
+  	ArrayList\<String> a2 = a1; //参数化类型
+
+  使用泛型类型的限制(续）
+
+  静态上下文中不允许使用泛型的类型参数。由于泛型类的所有实例类型都共享相同的运行时类，所以泛型类的静态变量和方法都被它的所有实例类型所共享。因此，在静态方法、数据域或者初始化语句中，使用泛型的参数类型是非法的。
+
+  异常类不能是泛型的。泛型类不能继承java.lang.Throwable。
+  非法，因为如果允许这么做，则应为MyException添加一个catch语句
+  JVM必须检查这个从try语句中抛出的异常以确定与catch语句中的异常类型匹配，但这不可能，因为运行时的类型信息是不可获得的。
+
+  不能使用new E( );  //只能用newInstance(…)
+
+  ```java
+  public class ObjectFactory<T> {
+  	private Class<T> type;  
+  	public ObjectFactory(Class<T> type) {
+  		this.type = type;
+  	}	
+  	public T create() {
+  		T o = null;
+  		try {
+  			o= type.newInstance();
+  		} catch (InstantiationException | IllegalAccessException e) {
+  			e.printStackTrace();
+  		}
+  		return o;
+  	}
+  }
+  
+  public class Test {
+  	public static void main(String[] args) {	
+  		//首先创建一个负责生产Car的对象工厂，传进去需要创建对象的类的Class信息	
+  		ObjectFactory<Car> carFactory = new ObjectFactory<Car>(Car.class);
+  		Car o = carFactory.create();  //由对象工厂负责产生car对象
+  		System.out.println(carFactory.create().toString());	
+  	}
+  }
+  
+  public class Car {
+  	private String s = null;
+  	public Car() {
+  		s = "Car";
+  	}
+  	public String toString() {
+  		return s;
+  	}
+  }
+  ```
+
+### 多线程和并行程序设计
+
+- 线程的概念
+
+  一个进程的多个子线程可以并发运行
+  多线程可以使程序反应更快、交互性更强、执行效率更高。
+  特别是Server端的程序，都是需要启动多个线程来处理大量来自客户端的请求
+  一个典型的GUI程序分为
+  GUI线程：处理UI消息循环，如鼠标消息、键盘消息
+  Worker线程：后台的数据处理工作，比如打印文件，大数据量的运算
+
+- Runuable接口和线程类Thread
+
+  创建线程方法：线程的执行逻辑（后面叫线程任务）必须实现java.lang.Runnable接口的唯一run方法。此外，由于Thread实现了Runnable接口，也可以通过Thread派生线程类。
+  因此有两种方法可以实现同一个或多个线程的运行：
+
+  1. 实现Runnable接口，需要实现唯一的接口方法run
+     void run( )
+     该方法定义了线程执行的功能
+     创建实现Runnable接口的类的对象——线程任务类，定义线程任务逻辑
+     利用Thread类的构造函数创建线程对象——代表线程类，定义线程的管理
+
+     通过线程任务类（TaskClass）创建任务对象（task）
+     以任务对象task为参数new Thread对象。Thread对象代表一个线程，线程的执行内容由任务对象task定义。
+     通过线程对象thread启动线程thread.start( )，任何线程只能启动一次，多次调用产生IllegalThreadStateException异常。
+
+     ```java
+     //Custom task class
+     class TaskClass implements Runnable {
+        ... //可以有自己的数据成员
+        public TaskClass(...) {
+           ...
+        }
+      
+        //Implement the run method in Runnable
+        public void run() {
+           //Tell system how to run custom thread
+           ...
+        }
+     }
+     
+     //Client Class
+     public class Client {
+        ...
+        public void someMethod(...) {
+        ...  
+        // Create an instance of TaskClass
+        Runnable task = new TaskClass(...);
+      
+        // Create a thread
+        Thread thread = new Thread(task);
+      
+        // Start a thread
+        thread.start(); // 启动后自动执行task.run
+        }
+     }
+     ```
+
+     
+
+  2. 通过继承Thread类创建线程
+
+     定义Thread类的扩展类（CustomThread）
+     通过扩展类（CustomThread）创建线程对象（thread）
+     通过线程对象thread启动线程thread.start()
+
+     ```java
+     // Custom thread class
+     class CustomThread extends Thread {
+       //数据成员
+       public CustomThread(...) {
+         ...
+       }
+      
+       public void run() {
+         // Tell system how to perform this task
+         ...
+       }
+       ...
+     }
+     
+     //Client class
+     public class Client {
+       ...
+       public void someMethod() {
+         ...
+         // Create a thread
+         Thread thread1 = new CustomThread();
+         // Start thread
+         thread1.start( ); //激活thread1对象的run
+         
+         // Create a thread
+         Thread thread2 = new CustomThread( );
+         // Start thread
+         thread2.start(); //激活thread2对象的run
+       }
+       ...
+     }
+     ```
+
+     线程和线程任务混在一起，不建议使用
+     Java不支持多继承，CustomThread继承了Thread类不能再继承其他类
+
+- 线程的状态转换
+
+  ![image-20210416160639559](JAVA学习笔记/image-20210416160639559.png)
+  
+  线程优先级范围从1－10，数字越高越能被优先执行。但优先级高并不代表能独自占用执行时间片，可能是优先级高得到越多的执行时间片，反之，优先级低的分到的执行时间少但不会分配不到执行时间
+  每个线程创建时赋予默认的优先级Thread.NORM_PRIORITY. 
+  通过setPriority(int priority)为线程指定优先级. 
+  用getPriority()方法获取线程的优先级.
+  JAVA定义的优先级：1～10
+  Thread类有int 类型的常量：
+  Thread.MIN_PRIORITY（1）
+  Thread.MAX_PRIORITY（10）
+  Thread.NORM_PRIORITY（5）
+  
+  多个线程只能是“宏观上并行，微观上串行”
+  在有限个CPU的系统中确定多个线程的执行顺序称为线程的调度
+  Java的线程调度是抢占式的，这表示调度机制会周期性地中断线程，将上下文切换到另外一个线程；从而为每个线程都提供时间片
+  自私的线程
+  	run() {
+  			while (true) {
+  			}
+  		}
+  应适当地在run()里sleep或yield一下，让其他线程有更多机会被运行。
+  
+  使用 yield() 方法为其他线程让出CPU时间：
+  
+  ```java
+  public void run() {
+      for (int i = 1; i < times; i++) {
+          System.out.print(charToPrint);
+          Thread.yield();  //挂起进入ready，给其它进程调度机会
+       }
+  }
+  ```
+  
+  sleep(long mills)方法将线程设置为休眠状态，确保其他线程执行:
+  
+  ```java
+  public void run() {
+      try {//循环中使用sleep方法，循环放在try-catch块中
+          for (int i = 1; i < times; i++) {
+              System.out.print(charToPrint);
+              if (i >= 50) Thread.sleep(1);
+          }
+      }
+      // 必检异常：其它线程调当前线程（正在休眠）interupt方法会抛出该异常
+      catch (InterruptedException ex { }
+  }
+  //处于阻塞状态（如在睡眠，在wait，在执行阻塞式IO）的线程，如果被其他线程打断（即处于阻塞的线程的interupt方法被其它线程调用），会抛出InterruptedException
+  ```
+  
+  join方法的作用：在A线程中调用了B线程（对象）的join()方法时，表示A线程放弃控制权（被阻塞了），只有当B线程执行完毕时，A线程才被唤醒继续执行。
+  
+  ```java
+  public class JoinDemo {
+      public static void main(String[] args) throws InterruptedException{
+          Thread printA = new Thread(new PrintChar('a',100));
+          Thread printB = new Thread(new PrintChar('b',100));
+          printA.start();  //在主线程里首先启动printA线程
+          printA.join(); //主线程被阻塞，等待printA执行完
+          printB.start(); //主线程被唤醒，启动printB线程
+      }
+  }
+  class PrintChar implements Runnable
+  {
+      private char charToPrint;  // The character to print
+      private int times;  // The times to repeat
+      public PrintChar(char c, int t){  charToPrint = c;  times = t; }
+      public void run(){ //实现Runnable中声明的run方法
+          for (int i=1; i < times; i++) 
+              System.out.print(charToPrint);
+      }
+  }
+  ```
+  
+  
+
+- 线程池
+
+  由于要为每一个线程任务创建一个线程（Thread对象），对于有大量线程任务的场景就不够高效
+  （当线程任务执行完毕，即run方法结束后，Thread对象就消亡，然后又为新的线程任务去new新的线程对象…, 当有大量的线程任务时，就不断的new Thread对象，Thread对象消亡，再new Thread对象…）
+  线程池适合大量线程任务的并发执行。线程池通过有效管理线程、“复用” 线程来提高性能. 
+  从JDK 1.5 开始使用Executor接口（执行器）来执行线程池中的任务，Executor的子接口ExecutorService管理和控制任务![截屏2021-04-21 上午8.26.24](JAVA学习笔记/截屏2021-04-21 上午8.26.24.png)
+
+  使用Executors的类方法创建一个线程池，Executors由Object派生
+
+  +newFixedThreadPool(numberOfThreads:int)：创建一个可以运行指定数目线程的线程池，一个线程在当前任务已经完成的情况下可以重用，来执行另外一个任务
+  +newCachedThreadPool()：创建一个线程池，它会在必要的时候创建新的线程，但是如果之前已经创建好的线程可用，则先重用之前创建好的的线程（尽量复用，不够再创建新线程）
+
+  Executors还支持其它类型的线程池的创建方法如：newScheduledThreadPool、newSingleThreadPool
+
+  ```java
+  import java.util.concurrent.*;
+   
+  public class ExecutorDemo {
+    public static void main(String[] args) {
+      // Create a fixed thread pool with maximum three threads
+      ExecutorService es= Executors.newFixedThreadPool(3);
+   
+      // Submit runnable tasks to the executor
+   	es.execute(new PrintChar('a', 100));
+   	es.execute(new PrintChar('b', 100));
+   	es.execute(new PrintNum(100));
+   
+      // Shut down 
+      es.shutdown();
+    }
+  }
+  ```
+
+  区分任务和线程：
+
+  任务是实现了Runnable接口的类的实例，这个任务的逻辑由run方法实现
+
+  线程是Thread类的实例，是任务的运行载体，任务必须通过线程来运行
+
+  如果这样直接new一个线程，线程启动后，执行任务的run方法，当任务的run方法执行完毕，线程对象使命就结束，被JVM回收。如果有大量的任务要运行，会导致频繁创建新线程、销毁线程。线程池维护多个创建好的线程，同时可以让多个任务“复用”线程，避免了线程的重复创建和销毁。
+
+  - [ ] 但是一个线程任务被线程执行完后，线程就自动消亡。那么如何复用一个线程（即让线程去执行新的任务）？
+
+- 线程同步
+
+  ```java
+  public class AccountWithoutSync {	
+  	private static class Account{//内部静态类Account
+  		private int balance = 0;
+  		public int getBalance() {
+  			return balance;  
+  		}	
+  		public void deposit(int amount){
+  			int newBalance = balance + amount;   //读取balance			
+  			try{ Thread.sleep(5); }
+  			catch(InterruptedException e){	}
+  			balance = newBalance;		//写balance
+  		}	
+  	}
+  	private static class AddPennyTask implements Runnable{
+  		public void run() {  account.deposit(1); }
+      //内部静态类AddPennyTask是线程任务类，实现Runnable接口，调用account对象的deposit方法
+  	}
+  	 private static Account account = new Account();//account对象被100个线程访问：每个线程的run方法都调用accoun.deposit方法
+     public static void main(String[] args){
+          ExecutorService executor = Executors.newCachedThreadPool();
+          for(int i = 0; i < 100; i++){
+              executor.execute(new AddPennyTask());
+          }
+          executor.shutdown();
+          while(!executor.isTerminated()){  }
+              System.out.println("What is balance?" + account.getBalance());
+          }	
+      }
+  }
+  /*
+  结果：多个线程访问一个对象，没有同步
+  多个线程同时访问公共资源，会导致竞争状态（同时去修改公共资源）。为了避免竞争状态，应该防止多个线程同时进入程序的某一特定部分，这样的部分叫临界区。Account类的deposit方法就是临界区。可用synchronized关键字来同步，保证一次只有一个线程可以访问这个方法。当一个方法被synchronized修饰，这个方法就是原子的（一个线程开始执行这个方法，就不可中断）
+    */
+  
+  ```
+
+  线程同步用于协调多个线程访问公共资源
+  	公共资源被多个线程同时访问，可能会遭到破坏
+  临界区(critical region)：可能被多个线程同时进入的程序的一部分区域
+  	所以需要对临界区同步，保证任何时候只能有1个线程进入临界区
+  可以用synchronized关键字来同步临界区
+  	临界区可以是方法，包括静态方法和实例方法，那么被synchronized关键字修饰的方法叫同步方法
+  	临界区也可以是语句块，也可以用synchronized关键字来同步语句块： 如synchronized(this) { …}
+  除了用synchronized关键字 ，还可利用加锁同步临界区
+
+  synchronized可用于同步方法
+  使用关键字synchronized 来修饰方法：public synchronized void deposit(double amount)
+  一次只有一个线程可以进入这个同步方法
+  synchronized关键字是如果做到方法同步的？通过加锁：一个线程要进入同步方法，首先拿到锁，进入方法后立刻上锁，导致其他要进入这个方法的线程被阻塞（等待锁）
+  	锁是一种实现资源排他使用的机制
+  	对于synchronized实例方法，是对调用该方法的对象（this对象）加锁
+  	对于synchronized静态方法，是对拥有这个静态方法的类加锁
+  当进入方法的线程执行完方法后，锁被释放，会唤醒等待这把锁的其他线程
+
+  synchronized也可以同步语句块
+  被synchronized关键字同步的语句块称为同步块(synchronized Block)	
+
+  ​	synchronized (expr) {   statements;  } 
+  表达式expr求值结果必须是一个对象的引用，因此可以通过对任何对象加锁来同步语句块
+  ​	如果expr指向的对象没有被加锁，则第一个执行到同步块的线程对该对象加锁，线程执行该语句块，然后解锁；
+  ​	如果expr指向的对象已经加了锁，则执行到同步块的其它线程将被阻塞
+  ​	expr指向的对象解锁后，所有等待该对象锁的线程都被唤醒
+  同步语句块允许同步方法中的部分代码，而不必是整个方法，增强了程序的并发能力
+  任何同步的实例方法都可以转换为同步语句块
+
+  ```java
+  public synchronized void xMethod(){
+  	//method body
+  }
+  
+  //上下两个方法是等效的
+  
+  public void xMethod(){
+  	synchronized(this){
+  		//method body
+  	}
+  }
+  ```
+
+  采用synchronized关键字的同步要隐式地在对象实例或类上加锁，粒度较大影响性能 
+  JDK 1.5 可以显式地加锁，能够在更小的粒度上进行线程同步
+  一个锁是一个Lock接口的实例
+  类ReentrantLock是Lock的一个具体实现：可重入的锁![截屏2021-04-21 上午9.19.15](JAVA学习笔记/截屏2021-04-21 上午9.19.15.png)
+
+- Java关键字synchronized隐式支持重入性。
+
+  可重入性锁描述这样的一个问题：一个线程在持有一个锁的时候，它能否再次（多次）申请该锁。如果一个线程已经获得了锁，它还可以再次获取该锁而不会死锁，那么我们就称该锁为可重入锁。通过以下伪代码说明：
+
+  ```java
+  void methodA(){    
+  	lock.lock(); // 获取锁    
+  	methodB();    
+  	lock.unlock() // 释放锁
+  }
+  
+  void methodB(){    
+  	lock.lock(); // 再次获取该锁   
+  	 // 其他业务    
+  	lock.unlock();// 释放锁
+  }
+  ```
+
+  ```java
+  public static class Account {// An inner class for account，主要变化在账户类
+     private static Lock lock = new ReentrantLock(); // 注意这里是静态的，被所有Account实例共享
+     private int balance = 0;   
+     public int getBalance() {return balance;}
+     public void deposit(int amount) {
+         lock.lock( ); // Acquire the lock,在这里加锁（临界区开始），第一个进入这个方法的线程获得锁，把deposite方法锁住。其他进入方法的线程必须等待这把锁，因为进入阻塞状态
+         try {
+             int newBalance = balance + amount; 
+          	 Thread.sleep(5);
+             balance = newBalance;
+         }
+         catch (InterruptedException ex) {   }
+         finally { lock.unlock(); }// Release the lock，在finally中进行锁的释放。在finally块里释放锁，其它等待这把锁的线程被唤醒，第一个获得锁的线程可以进入该方法了，进去后又对deposite上锁…
+     }
+  }
+  ```
+
+  假设一个类有多个用synchronized修饰的同步实例方法，如果多个线程访问这个类的同一个对象，当一个线程获得了该对象锁进入到其中一个同步方法时，这把锁会锁住这个对象所有的同步实例方法。因为一个同步的实例方法等价于synchronized(this){  }，因此锁的粒度是this对象。只要this对象被上锁，这个对象里所有同步的实例方法、synchronized(this){  }块都被锁住。
+
+  假设一个类有多个用synchronized修饰的同步实例方法，如果多个线程访问这个类的不同对象，那么不同对象的synchronized锁不一样，每个对象的锁只能对访问该对象的线程同步。
+  
+  如果采用synchronized关键字对类 A的实例方法进行同步控制，这时等价于synchronized(this){ }
+  一旦一个线程进入类A的对象o的synchronized实例方法，对象o被加锁，对象o所有的synchronized实例方法都被锁住，从而阻塞了要访问对象o的synchronized实例方法的线程，但是与访问A类其它对象的线程无关
+  
+  如果采用synchronized关键字对类 A的静态方法进行同步控制，这时等价于synchronized(A.class){ }。一旦一个线程进入A的一个静态同步方法，A所有的静态同步方法都被锁（这个锁是类级别的锁），这个锁对所有访问该类静态同步方法的线程有效，不管这些线程是通过类名访问静态同步方法还是通过不同的对象访问静态同步方法。
+  
+  如果通过Lock对象进行同步，首先看Lock对象对哪些临界区上锁，一旦Lock锁被一个线程获得，那么被这把锁控制的所有临界区都被上锁（如场景3）；另外要区分Lock对象本身是否是不同的：不同的Lock对象能阻塞的线程是不一样的
+  
+  线程之间有资源竞争，synchronized和Lock锁这些同步机制解决的是资源竞争问题
+  线程之间还有相互协作的问题
+  	假设创建并启动两个任务线程：
+  		存款线程用来向账户中存款
+  		提款线程从同一账户中提款
+  		当提款的数额大于账户的当前余额时，提款线程必须等待存款线程往账户里存钱
+  		如果存款线程存入一笔资金，必须通知提款线程重新尝试提款，如果余额仍未达到提款的数额，提款线程必须继续等待新的存款
+  
+  线程之间的相互协作：可通过Condition对象的await/signal/signalAll来完成
+  Condition (条件)对象是通过调用Lock实例的newCondition( )方法而创建的对象
+  Condition对象可以用于协调线程之间的交互（使用条件实现线程间通信）
+   一旦创建了条件对象condition，就可以通过调用condition.await()使当前线程进入等待状态 ,  
+  其它线程通过同一个条件对象调用signal和signalAll()方法来唤醒等待的线程，从而实现线程之间的相互协作
+  锁和条件是Java 5中的新内容，在Java 5之前，线程通信是使用对象的内置监视器（Object类的wait/signal/signalAll）编程实现
+  锁和条件比内置监视器更加强大且灵活，因此无须使用内置监视器，但要注意遗留代码中的内置监视器
+  
+  有await，就要有 signal()或者signalAll()，要不然一直等
+  条件对象由Lock对象创建，通过条件对象调用它的方法await/signal/signalAll()，为调用这些方法，必须首先拥有锁（即先调用lock方法），await之后会将锁释放。
+  
+- 信号量
+
+  Semaphore类
+
+  信号量用来限制访问一个共享资源的线程数，是一个有计数器的锁
+  访问资源之前，线程必须从信号量获取许可
+  访问完资源之后，该线程必须将许可返回给信号量
+
+  为了创建信号量，必须确定许可的数量（计数器最大值），同时可选用公平策略 
+  任务通过调用信号量的acquire()方法来获得许可，信号量中可用许可的总数减1
+  任务通过调用信号量的release()方法来释放许可，信号量中可用许可的总数加1
+
+- 死锁
+
+  见操作系统——死锁
+
+- 同步集合
+
+  Java集合框架 包括：List 、Set 、Map接口及其具体子类，都不是线程安全的。
+  集合框架中的类不是线程安全的， 可通过为访问集合的代码临界区加锁或者同步等方式来保护集合中的数据
+  Collections类提供6个静态方法来将集合转成同步版本（即线程安全的版本）
+  这些同步版本的类都是线程安全的，但是迭代器不是，因此使用迭代器时必须同步：synchronized(要迭代的集合对象）{ // 迭代}
+
+- TreadLocal机制
+
+  建立线程id到临界区内容的Map映射，用内存代价来实现同步……
