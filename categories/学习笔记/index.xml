@@ -4,7 +4,14 @@
         <link>https://jmmmj.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <description>学习笔记 - 分类 - jmmmj</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>jmjcoding@qq.com (jmmmj)</managingEditor>
-            <webMaster>jmjcoding@qq.com (jmmmj)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 May 2021 09:29:03 &#43;0800</lastBuildDate><atom:link href="https://jmmmj.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jmjcoding@qq.com (jmmmj)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 23 Sep 2021 19:29:43 &#43;0800</lastBuildDate><atom:link href="https://jmmmj.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Dart学习笔记</title>
+    <link>https://jmmmj.github.io/dart%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Thu, 23 Sep 2021 19:29:43 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://jmmmj.github.io/dart%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[<p>Dart据说是一款高效、简洁、已通过实战检验的语言，今天先从语言层面的基础开始学习，需要说明的是，这个笔记是以已有其他语言编程经验的人的角度写的（但不会JS），所以突出了一些非共性的地方方便理解。</p>]]></description>
+</item><item>
     <title>Java学习笔记</title>
     <link>https://jmmmj.github.io/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
     <pubDate>Sat, 08 May 2021 09:29:03 &#43;0800</pubDate>
